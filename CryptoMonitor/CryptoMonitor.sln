@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31729.503
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoMonitor.Web", "CryptoMonitor\CryptoMonitor.Web.csproj", "{03DC19E6-4B14-4D57-9E80-35C20918EDEB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1A048874-41AE-41FC-A059-1DFB5854938A} = {1A048874-41AE-41FC-A059-1DFB5854938A}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoMonitor.BLL", "CryptoMonitor.BusinessLogicLayer\CryptoMonitor.BLL.csproj", "{1A048874-41AE-41FC-A059-1DFB5854938A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C41495BC-0790-4C6B-9939-32254D4F2D65} = {C41495BC-0790-4C6B-9939-32254D4F2D65}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CryptoMonitor.DAL", "CryptoMonitor.DataAccessLayer\CryptoMonitor.DAL.csproj", "{C41495BC-0790-4C6B-9939-32254D4F2D65}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{03DC19E6-4B14-4D57-9E80-35C20918EDEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03DC19E6-4B14-4D57-9E80-35C20918EDEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03DC19E6-4B14-4D57-9E80-35C20918EDEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03DC19E6-4B14-4D57-9E80-35C20918EDEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A048874-41AE-41FC-A059-1DFB5854938A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A048874-41AE-41FC-A059-1DFB5854938A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A048874-41AE-41FC-A059-1DFB5854938A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A048874-41AE-41FC-A059-1DFB5854938A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C41495BC-0790-4C6B-9939-32254D4F2D65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C41495BC-0790-4C6B-9939-32254D4F2D65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C41495BC-0790-4C6B-9939-32254D4F2D65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C41495BC-0790-4C6B-9939-32254D4F2D65}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BA46C1D4-6AC9-418F-9180-04DD5F5962F3}
+	EndGlobalSection
+EndGlobal
