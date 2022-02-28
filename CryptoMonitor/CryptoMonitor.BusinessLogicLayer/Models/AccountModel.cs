@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Text;
 
-namespace CryptoMonitor.DAL.Entities
+namespace CryptoMonitor.BLL.Models
 {
-    public class Account
+    public class AccountModel
     {
         [Key]
         public int Id { get; set; }
@@ -12,8 +14,5 @@ namespace CryptoMonitor.DAL.Entities
         [Required]
         public string AccountPassword { get; set; }
         public int RoleId { get; set; }
-
-        [ForeignKey("RoleId")]
-        public virtual Role Role { get; set; }
     }
 }
