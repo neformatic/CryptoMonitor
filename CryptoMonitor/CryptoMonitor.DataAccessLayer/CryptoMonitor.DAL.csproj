@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Repositories\" />
     <Folder Include="Interfaces\" />
     <Folder Include="DTO\" />
     <Folder Include="Context\" />

@@ -1,4 +1,7 @@
+using CryptoMonitor.BLL.Services;
 using CryptoMonitor.DAL.Entities;
+using CryptoMonitor.DAL.Repositories;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,6 +31,13 @@ namespace CryptoMonitor
             services.AddDbContext<CryptoMonitorDbContext>(options =>
             options.UseSqlServer(
                 Configuration.GetConnectionString("DefaultConnection")));
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+        .AddCookie(options => //CookieAuthenticationOptions
+        {
+            options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Authorization");
+        });
+            services.AddScoped<AccountService>();
+            services.AddScoped<AccountRepository>();
             services.AddControllersWithViews();
         }
 
@@ -49,7 +59,8 @@ namespace CryptoMonitor
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseAuthentication();    // аутентификация
+            app.UseAuthorization();     // авторизация
 
             app.UseEndpoints(endpoints =>
             {

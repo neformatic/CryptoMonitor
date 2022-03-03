@@ -7,10 +7,8 @@ namespace CryptoMonitor.DAL.Entities
     {
         [Key]
         public int Id { get; set; }
-        [Required]
         public string AccountLogin { get; set; }
-        [Required]
-        public int AccountPassword { get; set; }
+        public string AccountPassword { get; set; }
         public int RoleId { get; set; }
 
         [ForeignKey("RoleId")]
