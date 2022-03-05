@@ -22,7 +22,7 @@ namespace CryptoMonitor.DAL.Repositories
         }
 
         public void UserRegistration(string login, string password, string lastName, string firstName, Role role)
-        {
+            {
             //var newUser = new User
             //{
 

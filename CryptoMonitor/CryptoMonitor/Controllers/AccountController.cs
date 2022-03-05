@@ -45,7 +45,7 @@ namespace CryptoMonitor.Web.Controllers
         [HttpGet]
         public IActionResult Authorization()
         {
-            return View();
+            return View();   
         }
 
         [HttpPost]
