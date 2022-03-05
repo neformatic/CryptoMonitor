@@ -10,9 +10,9 @@ namespace CryptoMonitor.DAL.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int AccountId { get; set; }
-        public int CryptoCurrencyId { get; set; }
+        public int? CryptoCurrencyId { get; set; }
 
-        [ForeignKey("AccountId")]
+        [ForeignKey(nameof(AccountId))]
         public virtual Account Account { get; set; }
         [ForeignKey("CryptoCurrencyId")]
         public virtual CryptoCurrency Currency { get; set; }

@@ -1,10 +1,13 @@
-﻿<h2>Authorization</h2>
+﻿@using CryptoMonitor.Web.Models
+@model LoginViewModel
+<h2>Authorization</h2>
 <form class="row g-3" method="post" asp-action="Authorization" asp-controller="Account">
     <div class="col-md-3">
+        <div class="validation" asp-validation-summary="ModelOnly"></div>
         <label for="Login" class="form-label">Login</label>
-        <input type="text" class="form-control" name="login" required>
+        <input type="text" class="form-control" name="login" asp-for=Login required>
         <label for="Password" class="form-label">Password</label>
-        <input type="password" class="form-control" name="password" required><br />
+        <input type="password" class="form-control" name="password" asp-for=Password required><br />
         <button type="submit" class="btn btn-primary">Log in</button>
-    </div>    
+    </div> 
 </form>

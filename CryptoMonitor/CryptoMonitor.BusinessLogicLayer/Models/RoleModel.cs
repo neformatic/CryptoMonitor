@@ -7,7 +7,6 @@ namespace CryptoMonitor.BLL.Models
 {
     public class RoleModel
     {
-        [Key]
         public int Id { get; set; }
         public string RoleName { get; set; }
     }

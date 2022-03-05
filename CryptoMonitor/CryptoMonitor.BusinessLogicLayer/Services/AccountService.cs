@@ -2,6 +2,7 @@
 using CryptoMonitor.DAL.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace CryptoMonitor.BLL.Services
@@ -24,7 +25,9 @@ namespace CryptoMonitor.BLL.Services
 
         public void UserRegistration(string login, string password, string lastName, string firstName)
         {
-            _accountRepository.UserRegistration(login, password, lastName, firstName);
+            var role = _db.Role.FirstOrDefault(r => r.RoleName == "Default user");
+
+            _accountRepository.UserRegistration(login, password, lastName, firstName, role);
             _db.SaveChanges();
         }
     }

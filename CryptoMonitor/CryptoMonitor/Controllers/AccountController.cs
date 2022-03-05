@@ -12,7 +12,7 @@ namespace CryptoMonitor.Web.Controllers
 {
     public class AccountController : Controller
     {
-        private AccountService _accountService;
+        private readonly AccountService _accountService;
 
         public AccountController(AccountService accountService)
         {
@@ -31,7 +31,7 @@ namespace CryptoMonitor.Web.Controllers
             if (ModelState.IsValid)
             {
                 var isUser = _accountService.IsAccount(model.Login, model.Password);
-                if (isUser)
+                if (!isUser)
                 {
                     _accountService.UserRegistration(model.Login, model.Password, model.LastName, model.FirstName);
                     await Authenticate(model.Login);
@@ -39,7 +39,7 @@ namespace CryptoMonitor.Web.Controllers
                 }
                 ModelState.AddModelError("Login", "Login is taken");
             }
-            return RedirectToAction("Registration");
+            return View(model);
         }
 
         [HttpGet]
@@ -53,14 +53,17 @@ namespace CryptoMonitor.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var isUser = _accountService.IsAccount(model.Login, model.Password);
-                if (isUser)
+                var userExist = _accountService.IsAccount(model.Login, model.Password);
+
+                if (userExist)
                 {
                     await Authenticate(model.Login);
                     return RedirectToAction("Index", "Home");
                 }
-                ModelState.AddModelError("", "Некорректный логин и(или) пароль.");
+
+                ModelState.AddModelError(string.Empty, "Некорректный логин и(или) пароль.");
             }
+
             return View(model);       
         }
 

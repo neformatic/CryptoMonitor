@@ -21,7 +21,7 @@ namespace CryptoMonitor.DAL.Repositories
             return userAccount != null;
         }
 
-        public void UserRegistration(string login, string password, string lastName, string firstName)
+        public void UserRegistration(string login, string password, string lastName, string firstName, Role role)
         {
             //var newUser = new User
             //{
@@ -29,11 +29,12 @@ namespace CryptoMonitor.DAL.Repositories
             //};
             //_db.User.Add(newUser);
 
-            Account newAccount = new Account { AccountLogin = login, AccountPassword = password };
-            User newUser = new User { LastName = lastName, FirstName = firstName };
+            Account newAccount = new Account { AccountLogin = login, AccountPassword = password, Role = role };
             _db.Account.Add(newAccount);
+            _db.SaveChanges();
+            User newUser = new User { LastName = lastName, FirstName = firstName, Account = newAccount,  };
             _db.User.Add(newUser);
-            
+            _db.SaveChanges();
 
             //var newUser = _db.User.Include(a => a.Account).Where().ToList();
             //foreach (var user in newUser)
