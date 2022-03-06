@@ -30,5 +30,17 @@ namespace CryptoMonitor.BLL.Services
             _accountRepository.UserRegistration(login, password, lastName, firstName, role);
             _db.SaveChanges();
         }
+
+        public string GetRole(int id)
+        {
+            var role = _accountRepository.GetRole(id);
+            return role;
+        }
+
+        public int GetAccountId(string login)
+        {
+            var AccountId = _accountRepository.GetAccountId(login);
+            return AccountId;
+        }
     }
 }

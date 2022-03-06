@@ -22,28 +22,28 @@ namespace CryptoMonitor.DAL.Repositories
         }
 
         public void UserRegistration(string login, string password, string lastName, string firstName, Role role)
-            {
-            //var newUser = new User
-            //{
-
-            //};
-            //_db.User.Add(newUser);
-
+        {
             Account newAccount = new Account { AccountLogin = login, AccountPassword = password, Role = role };
             _db.Account.Add(newAccount);
             _db.SaveChanges();
-            User newUser = new User { LastName = lastName, FirstName = firstName, Account = newAccount,  };
+            User newUser = new User { LastName = lastName, FirstName = firstName, Account = newAccount, };
             _db.User.Add(newUser);
             _db.SaveChanges();
+        }
 
-            //var newUser = _db.User.Include(a => a.Account).Where().ToList();
-            //foreach (var user in newUser)
-            //{
-            //    user.Account.AccountLogin = login;
-            //    user.Account.AccountPassword = password;
-            //    user.LastName = lastName;
-            //    user.FirstName = firstName;
-            //}
+        public string GetRole(int id)
+        {
+            var role = (from a in _db.Account
+                        join r in _db.Role on a.RoleId equals r.Id
+                        where a.Id == id
+                        select r.RoleName).SingleOrDefault();
+            return role;
+        }
+
+        public int GetAccountId(string login)
+        {
+            var accountId = _db.Account.Where(a => a.AccountLogin == login).Select(a => a.Id).FirstOrDefault();
+            return accountId;
         }
     }
 }
