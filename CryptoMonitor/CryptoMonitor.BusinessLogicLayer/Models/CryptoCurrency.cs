@@ -5,11 +5,9 @@ using System.Text;
 
 namespace CryptoMonitor.BLL.Models
 {
-    public class CryptoCurrencyModel
+    public class CryptoCurrency
     {
-        [Key]
         public int Id { get; set; }
-        [Required]
         public string CurrencyName { get; set; }
         public decimal? CurrencyPrice { get; set; }
         public DateTime? UpdatedDate { get; set; }

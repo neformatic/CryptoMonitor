@@ -1,4 +1,5 @@
 ﻿using CryptoMonitor.DAL.Entities;
+using CryptoMonitor.DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,9 +8,10 @@ using System.Text;
 
 namespace CryptoMonitor.DAL.Repositories
 {
-    public class AccountRepository
+    public class AccountRepository : IAccountRepository
     {
-        private CryptoMonitorDbContext _db;
+        private readonly CryptoMonitorDbContext _db;
+        private Role role = new Role() { RoleName = "Default user" };
         public AccountRepository(CryptoMonitorDbContext db)
         {
             _db = db;
@@ -21,12 +23,12 @@ namespace CryptoMonitor.DAL.Repositories
             return userAccount != null;
         }
 
-        public void UserRegistration(string login, string password, string lastName, string firstName, Role role)
+        public void UserRegistration(string login, string password, string lastName, string firstName)
         {
             Account newAccount = new Account { AccountLogin = login, AccountPassword = password, Role = role };
             _db.Account.Add(newAccount);
             _db.SaveChanges();
-            User newUser = new User { LastName = lastName, FirstName = firstName, Account = newAccount, };
+            User newUser = new User { LastName = lastName, FirstName = firstName, Account = newAccount };
             _db.User.Add(newUser);
             _db.SaveChanges();
         }

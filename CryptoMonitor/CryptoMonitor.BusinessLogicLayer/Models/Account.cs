@@ -5,10 +5,11 @@ using System.Text;
 
 namespace CryptoMonitor.BLL.Models
 {
-    public class RoleModel
+    public class Account
     {
-        [Key]
         public int Id { get; set; }
-        public string RoleName { get; set; }
+        public string AccountLogin { get; set; }
+        public string AccountPassword { get; set; }
+        public int RoleId { get; set; }
     }
 }

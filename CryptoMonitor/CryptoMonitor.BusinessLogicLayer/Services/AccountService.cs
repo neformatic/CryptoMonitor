@@ -1,20 +1,18 @@
-﻿using CryptoMonitor.DAL.Entities;
+﻿using AutoMapper;
+using CryptoMonitor.BLL.Interfaces;
 using CryptoMonitor.DAL.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace CryptoMonitor.BLL.Services
 {
-    public class AccountService
+    public class AccountService : IAccountService
     {
-        private CryptoMonitorDbContext _db;
-        private AccountRepository _accountRepository;
-        public AccountService(CryptoMonitorDbContext db, AccountRepository accountRepository)
+        private readonly AccountRepository _accountRepository;
+        private readonly IMapper _mapper;
+
+        public AccountService(AccountRepository accountRepository, IMapper mapper)
         {
-            _db = db;
             _accountRepository = accountRepository;
+            _mapper = mapper;
         }
 
         public bool IsAccount(string login, string password)
@@ -25,10 +23,8 @@ namespace CryptoMonitor.BLL.Services
 
         public void UserRegistration(string login, string password, string lastName, string firstName)
         {
-            var role = _db.Role.FirstOrDefault(r => r.RoleName == "Default user");
 
-            _accountRepository.UserRegistration(login, password, lastName, firstName, role);
-            _db.SaveChanges();
+            _accountRepository.UserRegistration(login, password, lastName, firstName);
         }
 
         public string GetRole(int id)

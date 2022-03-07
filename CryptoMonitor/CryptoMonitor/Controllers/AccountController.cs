@@ -36,7 +36,7 @@ namespace CryptoMonitor.Web.Controllers
                 {
                     _accountService.UserRegistration(model.Login, model.Password, model.LastName, model.FirstName);
                     await Authenticate(model.Login);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "User");
                 }
                 ModelState.AddModelError("Login", "Login is taken");
             }
