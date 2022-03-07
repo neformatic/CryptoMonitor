@@ -6,19 +6,20 @@ namespace CryptoMonitor.Web.Controllers
     public class AdminController : Controller
     {
         // GET: AdminController
-        public ActionResult Index()
+        public IActionResult Index()
         {
             return View();
         }
 
         // GET: AdminController/Details/5
-        public ActionResult Details(int id)
+        public IActionResult Details(int id)
         {
+
             return View();
         }
 
         // GET: AdminController/Create
-        public ActionResult Create()
+        public IActionResult Create()
         {
             return View();
         }
@@ -26,7 +27,7 @@ namespace CryptoMonitor.Web.Controllers
         // POST: AdminController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public IActionResult Create(IFormCollection collection)
         {
             try
             {
@@ -39,7 +40,7 @@ namespace CryptoMonitor.Web.Controllers
         }
 
         // GET: AdminController/Edit/5
-        public ActionResult Edit(int id)
+        public IActionResult Edit(int id)
         {
             return View();
         }
@@ -47,7 +48,7 @@ namespace CryptoMonitor.Web.Controllers
         // POST: AdminController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public IActionResult Edit(int id, IFormCollection collection)
         {
             try
             {
@@ -60,7 +61,7 @@ namespace CryptoMonitor.Web.Controllers
         }
 
         // GET: AdminController/Delete/5
-        public ActionResult Delete(int id)
+        public IActionResult Delete(int id)
         {
             return View();
         }
@@ -68,7 +69,7 @@ namespace CryptoMonitor.Web.Controllers
         // POST: AdminController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public IActionResult Delete(int id, IFormCollection collection)
         {
             try
             {

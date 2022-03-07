@@ -6,5 +6,9 @@ namespace CryptoMonitor.BLL.DTO
 {
     public class AccountModel
     {
+        public int Id { get; set; }
+        public string AccountLogin { get; set; }
+        public string AccountPassword { get; set; }
+        public int RoleId { get; set; }
     }
 }

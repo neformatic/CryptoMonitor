@@ -1,4 +1,4 @@
-﻿using CryptoMonitor.BLL.Services;
+﻿using CryptoMonitor.BLL.Interfaces;
 using CryptoMonitor.Web.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -12,10 +12,10 @@ namespace CryptoMonitor.Web.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly AccountService _accountService;
+        private readonly IAccountService _accountService;
         private string accountRole = string.Empty;
 
-        public AccountController(AccountService accountService)
+        public AccountController(IAccountService accountService)
         {
             _accountService = accountService;
         }

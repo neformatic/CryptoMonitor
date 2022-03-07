@@ -6,5 +6,7 @@ namespace CryptoMonitor.DAL.DTO
 {
     public class RoleDataModel
     {
+        public int Id { get; set; }
+        public string RoleName { get; set; }
     }
 }

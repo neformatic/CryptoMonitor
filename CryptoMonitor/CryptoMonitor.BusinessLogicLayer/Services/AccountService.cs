@@ -1,18 +1,17 @@
 ﻿using AutoMapper;
 using CryptoMonitor.BLL.Interfaces;
+using CryptoMonitor.DAL.Interfaces;
 using CryptoMonitor.DAL.Repositories;
 
 namespace CryptoMonitor.BLL.Services
 {
     public class AccountService : IAccountService
     {
-        private readonly AccountRepository _accountRepository;
-        private readonly IMapper _mapper;
+        private readonly IAccountRepository _accountRepository;
 
-        public AccountService(AccountRepository accountRepository, IMapper mapper)
+        public AccountService(IAccountRepository accountRepository)
         {
             _accountRepository = accountRepository;
-            _mapper = mapper;
         }
 
         public bool IsAccount(string login, string password)

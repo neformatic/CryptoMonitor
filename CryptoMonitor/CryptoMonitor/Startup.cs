@@ -1,4 +1,5 @@
 using CryptoMonitor.BLL.Interfaces;
+using CryptoMonitor.BLL.Mapper;
 using CryptoMonitor.BLL.Services;
 using CryptoMonitor.DAL.Entities;
 using CryptoMonitor.DAL.Interfaces;
@@ -30,13 +31,13 @@ namespace CryptoMonitor
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAutoMapper(typeof(MapperProfile));
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<ICryptoCurrencyService, CryptoCurrencyService>();
             services.AddScoped<ICryptoCurrencyRepository, CryptoCurrencyRepository>();
             services.AddDbContext<CryptoMonitorDbContext>(options =>
-            options.UseSqlServer(
-                Configuration.GetConnectionString("DefaultConnection")));
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
         .AddCookie(options => //CookieAuthenticationOptions
         {

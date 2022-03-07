@@ -1,26 +1,33 @@
-﻿using CryptoMonitor.BLL.Interfaces;
-using CryptoMonitor.DAL.Entities;
-using CryptoMonitor.DAL.Repositories;
+﻿using AutoMapper;
+using CryptoMonitor.BLL.DTO;
+using CryptoMonitor.BLL.Interfaces;
+using CryptoMonitor.BLL.Models;
+using CryptoMonitor.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace CryptoMonitor.BLL.Services
 {
     public class CryptoCurrencyService : ICryptoCurrencyService
     {
-        private readonly CryptoMonitorDbContext _db;
-        private readonly CryptoCurrencyRepository _cryptoCurrencyRepository;
-        public CryptoCurrencyService(CryptoMonitorDbContext db, CryptoCurrencyRepository cryptoCurrencyRepository)
+        private readonly IMapper _mapper;
+        private readonly ICryptoCurrencyRepository _cryptoCurrencyRepository;
+        public CryptoCurrencyService(IMapper mapper, ICryptoCurrencyRepository cryptoCurrencyRepository)
         {
-            _db = db;
+            _mapper = mapper;
             _cryptoCurrencyRepository = cryptoCurrencyRepository;
         }
 
-        public List<CryptoCurrency> GetCryptoCurrencies()
+        public List<CryptoCurrencyModel> GetCryptoCurrencies()
         {
             var cryptoCurrencies = _cryptoCurrencyRepository.GetCryptoCurrencies();
-            return cryptoCurrencies;
+            List<CryptoCurrencyModel> cryptoCurrencyModels = new List<CryptoCurrencyModel>();
+            foreach (var item in cryptoCurrencies)
+            {
+                var mapped = _mapper.Map<CryptoCurrencyModel>(item);
+                cryptoCurrencyModels.Add(mapped);
+            }
+            return cryptoCurrencyModels;
         }
 
         public int GetCryptoCurrencyById(int id)

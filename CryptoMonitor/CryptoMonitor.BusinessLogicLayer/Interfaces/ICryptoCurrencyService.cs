@@ -1,4 +1,5 @@
-﻿using CryptoMonitor.DAL.Entities;
+﻿using CryptoMonitor.BLL.DTO;
+using CryptoMonitor.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,7 +8,7 @@ namespace CryptoMonitor.BLL.Interfaces
 {
     public interface ICryptoCurrencyService
     {
-        List<CryptoCurrency> GetCryptoCurrencies();
+        List<CryptoCurrencyModel> GetCryptoCurrencies();
         int GetCryptoCurrencyById(int id);
         string GetCryptoCurrencyByName(string name);
         void AddCryptoCurrency(string currencyName, decimal currencyPrice, DateTime updatedDate, string currencyImage);
