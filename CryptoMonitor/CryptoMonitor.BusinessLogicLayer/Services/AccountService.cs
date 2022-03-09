@@ -20,7 +20,7 @@ namespace CryptoMonitor.BLL.Services
             return isAccount;
         }
 
-        public void UserRegistration(string login, string password, string lastName, string firstName)
+        public void UserRegistration(string login, string password, string lastName, string firstName) // переделать
         {
 
             _accountRepository.UserRegistration(login, password, lastName, firstName);

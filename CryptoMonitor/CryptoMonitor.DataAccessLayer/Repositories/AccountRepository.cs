@@ -11,11 +11,10 @@ namespace CryptoMonitor.DAL.Repositories
     public class AccountRepository : IAccountRepository
     {
         private readonly CryptoMonitorDbContext _db;
-        private Role _role = new Role() { RoleName = "Default user" };
-        public AccountRepository(CryptoMonitorDbContext db, Role role)
+       
+        public AccountRepository(CryptoMonitorDbContext db)
         {
             _db = db;
-            _role = role;
         }
 
         public bool IsAccount(string login, string password)
@@ -26,9 +25,10 @@ namespace CryptoMonitor.DAL.Repositories
 
         public void UserRegistration(string login, string password, string lastName, string firstName)
         {
-            Account newAccount = new Account { AccountLogin = login, AccountPassword = password, Role = _role };
-            _db.Account.Add(newAccount);
-            _db.SaveChanges();
+            var role = _db.Role.OrderBy(r => r.Id).First(); // почитать
+            Account newAccount = new Account { AccountLogin = login, AccountPassword = password, Role = role };
+            _db.Account.Add(newAccount); // разделить по отдельным репозиториям
+            _db.SaveChanges(); // перенести в bl
             User newUser = new User { LastName = lastName, FirstName = firstName, Account = newAccount };
             _db.User.Add(newUser);
             _db.SaveChanges();

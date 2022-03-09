@@ -20,7 +20,7 @@ namespace CryptoMonitor.Web.Controllers
         }
 
         // GET: AdminController/Details/5
-        public IActionResult Details(int id)
+        public IActionResult Details(int id) // переделать
         {
             var currencyById = _currencyService.GetCryptoCurrencyById(id);
             return View(currencyById);
@@ -35,7 +35,7 @@ namespace CryptoMonitor.Web.Controllers
         // POST: AdminController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(CryptoCurrencyViewModel currencyViewModel)
+        public IActionResult Create(CryptoCurrencyViewModel currencyViewModel) // сделать маппинг в бл модели
         {
             _currencyService.AddCryptoCurrency(currencyViewModel.CurrencyName, currencyViewModel.CurrencyPrice, currencyViewModel.UpdatedDate, currencyViewModel.CurrencyImage);
             return RedirectToAction("Index");

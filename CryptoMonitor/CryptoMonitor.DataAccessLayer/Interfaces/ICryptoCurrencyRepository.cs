@@ -1,17 +1,16 @@
-﻿using CryptoMonitor.DAL.Entities;
+﻿using CryptoMonitor.DAL.DTO;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace CryptoMonitor.DAL.Interfaces
 {
     public interface ICryptoCurrencyRepository
     {
-        List<CryptoCurrency> GetCryptoCurrencies();
+        List<CryptoCurrencyDataModel> GetCryptoCurrencies();
         int GetCryptoCurrencyById(int id);
         string GetCryptoCurrencyByName(string name);
         void AddCryptoCurrency(string currencyName, decimal currencyPrice, DateTime updatedDate, string currencyImage);
-        void EditCryptoCurrency(int id, string currencyName, decimal currencyPrice, DateTime updatedDate, string currencyImage);
+        void EditCryptoCurrency(CryptoCurrencyDataModel cryptoCurrency);
         void DeleteCryptoCurrency(int id);
     }
 }

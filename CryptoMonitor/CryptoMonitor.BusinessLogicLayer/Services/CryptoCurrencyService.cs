@@ -2,6 +2,7 @@
 using CryptoMonitor.BLL.DTO;
 using CryptoMonitor.BLL.Interfaces;
 using CryptoMonitor.BLL.Models;
+using CryptoMonitor.DAL.DTO;
 using CryptoMonitor.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -44,12 +45,13 @@ namespace CryptoMonitor.BLL.Services
 
         public void AddCryptoCurrency(string currencyName, decimal currencyPrice, DateTime updatedDate, string currencyImage)
         {
-            _cryptoCurrencyRepository.AddCryptoCurrency(currencyName, currencyPrice, updatedDate, currencyImage);
+            _cryptoCurrencyRepository.AddCryptoCurrency(currencyName, currencyPrice, updatedDate, currencyImage); // переделать
         }
 
-        public void EditCryptoCurrency(int id, string currencyName, decimal currencyPrice, DateTime updatedDate, string currencyImage)
+        public void EditCryptoCurrency(CryptoCurrencyModel cryptoCurrency)
         {
-            _cryptoCurrencyRepository.EditCryptoCurrency(id, currencyName, currencyPrice, updatedDate, currencyImage);
+            var mapped = _mapper.Map<CryptoCurrencyDataModel>(cryptoCurrency); // посмотреть еще раз
+            _cryptoCurrencyRepository.EditCryptoCurrency(mapped);
         }
 
         public void DeleteCryptoCurrency(int id)
