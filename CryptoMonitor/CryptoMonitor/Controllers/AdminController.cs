@@ -1,21 +1,29 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using CryptoMonitor.BLL.Interfaces;
+using CryptoMonitor.Web.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CryptoMonitor.Web.Controllers
 {
     public class AdminController : Controller
     {
+        private readonly ICryptoCurrencyService _currencyService;
+        public AdminController(ICryptoCurrencyService currencyService)
+        {
+            _currencyService = currencyService;
+        }
         // GET: AdminController
         public IActionResult Index()
         {
-            return View();
+            var currencyList = _currencyService.GetCryptoCurrencies();
+            return View(currencyList);
         }
 
         // GET: AdminController/Details/5
         public IActionResult Details(int id)
         {
-
-            return View();
+            var currencyById = _currencyService.GetCryptoCurrencyById(id);
+            return View(currencyById);
         }
 
         // GET: AdminController/Create
@@ -27,16 +35,10 @@ namespace CryptoMonitor.Web.Controllers
         // POST: AdminController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(IFormCollection collection)
+        public IActionResult Create(CryptoCurrencyViewModel currencyViewModel)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            _currencyService.AddCryptoCurrency(currencyViewModel.CurrencyName, currencyViewModel.CurrencyPrice, currencyViewModel.UpdatedDate, currencyViewModel.CurrencyImage);
+            return RedirectToAction("Index");
         }
 
         // GET: AdminController/Edit/5
@@ -45,35 +47,36 @@ namespace CryptoMonitor.Web.Controllers
             return View();
         }
 
-        // POST: AdminController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //// POST: AdminController/Edit/5
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public IActionResult Edit(int id, CryptoCurrencyViewModel currencyViewModel)
+        //{
+        //    try
+        //    {
+        //        _currencyService.EditCryptoCurrency(id, currencyViewModel.CurrencyName, currencyViewModel.CurrencyPrice, currencyViewModel.UpdatedDate, currencyViewModel.CurrencyImage);
+        //    }
+        //    catch
+        //    {
+        //        return RedirectToAction("Index");
+        //    }
+        //}
 
         // GET: AdminController/Delete/5
-        public IActionResult Delete(int id)
-        {
-            return View();
-        }
+        //public IActionResult Delete(int id)
+        //{
+        //    return View();
+        //}
 
         // POST: AdminController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id, IFormCollection collection)
+        public IActionResult Delete(int id)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _currencyService.DeleteCryptoCurrency(id);
+                return RedirectToAction("Index");
             }
             catch
             {

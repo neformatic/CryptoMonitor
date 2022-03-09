@@ -46,7 +46,7 @@ namespace CryptoMonitor.DAL.Repositories
             _db.SaveChanges();
         }
 
-        public void EditCryptoCurrency(string currencyName, decimal currencyPrice, DateTime updatedDate, string currencyImage)
+        public void EditCryptoCurrency(int id, string currencyName, decimal currencyPrice, DateTime updatedDate, string currencyImage) ///////// уточнить
         {
             var editedCryptoCurrency = new CryptoCurrency
             {

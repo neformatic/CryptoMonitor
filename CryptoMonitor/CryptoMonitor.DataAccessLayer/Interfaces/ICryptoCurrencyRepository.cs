@@ -11,7 +11,7 @@ namespace CryptoMonitor.DAL.Interfaces
         int GetCryptoCurrencyById(int id);
         string GetCryptoCurrencyByName(string name);
         void AddCryptoCurrency(string currencyName, decimal currencyPrice, DateTime updatedDate, string currencyImage);
-        void EditCryptoCurrency(string currencyName, decimal currencyPrice, DateTime updatedDate, string currencyImage);
+        void EditCryptoCurrency(int id, string currencyName, decimal currencyPrice, DateTime updatedDate, string currencyImage);
         void DeleteCryptoCurrency(int id);
     }
 }

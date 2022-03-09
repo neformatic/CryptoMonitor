@@ -47,9 +47,9 @@ namespace CryptoMonitor.BLL.Services
             _cryptoCurrencyRepository.AddCryptoCurrency(currencyName, currencyPrice, updatedDate, currencyImage);
         }
 
-        public void EditCryptoCurrency(string currencyName, decimal currencyPrice, DateTime updatedDate, string currencyImage)
+        public void EditCryptoCurrency(int id, string currencyName, decimal currencyPrice, DateTime updatedDate, string currencyImage)
         {
-            _cryptoCurrencyRepository.EditCryptoCurrency(currencyName, currencyPrice, updatedDate, currencyImage);
+            _cryptoCurrencyRepository.EditCryptoCurrency(id, currencyName, currencyPrice, updatedDate, currencyImage);
         }
 
         public void DeleteCryptoCurrency(int id)
