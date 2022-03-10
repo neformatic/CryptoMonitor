@@ -32,9 +32,13 @@ namespace CryptoMonitor
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapper(typeof(MapperProfile)); // сделать для всех мапперов написать Артему по поводу DI для каждого слоя
+            services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAccountService, AccountService>();
-            services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<ICryptoCurrencyService, CryptoCurrencyService>();
+            services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<ICryptoCurrencyRepository, CryptoCurrencyRepository>();
             services.AddDbContext<CryptoMonitorDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -43,8 +47,6 @@ namespace CryptoMonitor
         {
             options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Authorization");
         });
-            services.AddScoped<AccountService>();
-            services.AddScoped<AccountRepository>();
             services.AddControllersWithViews();
         }
 

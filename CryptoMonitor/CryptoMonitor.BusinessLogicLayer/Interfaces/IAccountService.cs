@@ -8,7 +8,6 @@ namespace CryptoMonitor.BLL.Interfaces
     {
         bool IsAccount(string login, string password);
         void UserRegistration(string login, string password, string lastName, string firstName);
-        string GetRole(int id);
         int GetAccountId(string login);
     }
 }

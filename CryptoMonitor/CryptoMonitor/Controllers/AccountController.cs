@@ -13,11 +13,13 @@ namespace CryptoMonitor.Web.Controllers
     public class AccountController : Controller
     {
         private readonly IAccountService _accountService;
+        private readonly IRoleService _roleService;
         private string accountRole = string.Empty;
 
-        public AccountController(IAccountService accountService)
+        public AccountController(IAccountService accountService, IRoleService roleService)
         {
             _accountService = accountService;
+            _roleService = roleService;
         }
 
         [HttpGet]
@@ -60,7 +62,7 @@ namespace CryptoMonitor.Web.Controllers
                 {
                     await Authenticate(model.Login);
                     var userId = _accountService.GetAccountId(model.Login);
-                    accountRole = _accountService.GetRole(userId);
+                    accountRole = _roleService.GetRole(userId);
 
                     switch (accountRole)
                     {
