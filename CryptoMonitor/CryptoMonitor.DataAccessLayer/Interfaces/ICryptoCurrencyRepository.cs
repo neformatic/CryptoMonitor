@@ -7,10 +7,11 @@ namespace CryptoMonitor.DAL.Interfaces
     public interface ICryptoCurrencyRepository
     {
         List<CryptoCurrencyDataModel> GetCryptoCurrencies();
-        int GetCryptoCurrencyById(int id);
-        string GetCryptoCurrencyByName(string name);
-        void AddCryptoCurrency(string currencyName, decimal currencyPrice, DateTime updatedDate, string currencyImage);
+        CryptoCurrencyDataModel GetCryptoCurrencyById(int id);
+        CryptoCurrencyDataModel GetCryptoCurrencyByName(string name);
+        void AddCryptoCurrency(CryptoCurrencyDataModel cryptoCurrency);
         void EditCryptoCurrency(CryptoCurrencyDataModel cryptoCurrency);
         void DeleteCryptoCurrency(int id);
+        void Save();
     }
 }

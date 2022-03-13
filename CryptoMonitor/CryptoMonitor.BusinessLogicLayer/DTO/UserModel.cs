@@ -9,7 +9,6 @@ namespace CryptoMonitor.BLL.DTO
         public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public int AccountId { get; set; }
-        public int CryptoCurrencyId { get; set; }
+        public AccountModel Account { get; set; }
     }
 }

@@ -26,33 +26,40 @@ namespace CryptoMonitor.DAL.Repositories
             var mapped = _mapper.Map<List<CryptoCurrencyDataModel>>(cryptoCurrencies);
             return mapped; 
         }
-        public int GetCryptoCurrencyById(int id) // вернуть модель
+        public CryptoCurrencyDataModel GetCryptoCurrencyById(int id)
         {
-            var cryptoCurrency = _db.CryptoCurrency.Where(c => c.Id == id).Select(c => c.Id).FirstOrDefault();
-            
-            return cryptoCurrency;
+            CryptoCurrency cryptoCurrency = _db.CryptoCurrency.Where(c => c.Id == id).FirstOrDefault();
+            if (cryptoCurrency == null)
+            {
+                return null;
+            }
+            var mapped = _mapper.Map<CryptoCurrencyDataModel>(cryptoCurrency);
+            return mapped;
         }
-        public string GetCryptoCurrencyByName(string name)
+        public CryptoCurrencyDataModel GetCryptoCurrencyByName(string name)
         {
-            var cryptoCurrency = _db.CryptoCurrency.Where(c => c.CurrencyName == name).Select(c => c.CurrencyName).FirstOrDefault();
-
-            return cryptoCurrency;
+            CryptoCurrency cryptoCurrency = _db.CryptoCurrency.Where(c => c.CurrencyName == name).FirstOrDefault();
+            if (cryptoCurrency == null)
+            {
+                return null;
+            }
+            var mapped = _mapper.Map<CryptoCurrencyDataModel>(cryptoCurrency);
+            return mapped;
         }
 
-        public void AddCryptoCurrency(string currencyName, decimal currencyPrice, DateTime updatedDate, string currencyImage)
+        public void AddCryptoCurrency(CryptoCurrencyDataModel cryptoCurrencyDataModel)
         {
             var newCryptoCurrency = new CryptoCurrency
             {
-                CurrencyName = currencyName,
-                CurrencyPrice = currencyPrice,
-                UpdatedDate = updatedDate,
-                CurrencyImage = currencyImage
+                CurrencyName = cryptoCurrencyDataModel.CurrencyName,
+                CurrencyPrice = cryptoCurrencyDataModel.CurrencyPrice,
+                UpdatedDate = cryptoCurrencyDataModel.UpdatedDate,
+                CurrencyImage = cryptoCurrencyDataModel.CurrencyImage
             };
             _db.CryptoCurrency.Add(newCryptoCurrency);
-            _db.SaveChanges();
         }
 
-        public void EditCryptoCurrency(CryptoCurrencyDataModel cryptoCurrencyDataModel) ///////// уточнить
+        public void EditCryptoCurrency(CryptoCurrencyDataModel cryptoCurrencyDataModel)
         {
             var cryptoCurrency = _db.CryptoCurrency.FirstOrDefault(c => c.Id == cryptoCurrencyDataModel.Id);
             if (cryptoCurrency == null)
@@ -63,13 +70,16 @@ namespace CryptoMonitor.DAL.Repositories
             cryptoCurrency.CurrencyPrice = cryptoCurrencyDataModel.CurrencyPrice;
             cryptoCurrency.UpdatedDate = cryptoCurrencyDataModel.UpdatedDate;
             cryptoCurrency.CurrencyImage = cryptoCurrencyDataModel.CurrencyImage;
-            _db.SaveChanges();
         }
 
         public void DeleteCryptoCurrency(int id)
         {
              var cryptoCurrency = _db.CryptoCurrency.Find(id);
             _db.CryptoCurrency.Remove(cryptoCurrency);
+        }
+
+        public void Save()
+        {
             _db.SaveChanges();
         }
     }

@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using CryptoMonitor.BLL.DTO;
 using CryptoMonitor.BLL.Interfaces;
+using CryptoMonitor.DAL.DTO;
 using CryptoMonitor.DAL.Interfaces;
 using CryptoMonitor.DAL.Repositories;
 
@@ -7,11 +9,15 @@ namespace CryptoMonitor.BLL.Services
 {
     public class AccountService : IAccountService
     {
+        private readonly IUserRepository _userRepository;
         private readonly IAccountRepository _accountRepository;
+        private readonly IMapper _mapper;
 
-        public AccountService(IAccountRepository accountRepository)
+        public AccountService(IAccountRepository accountRepository, IUserRepository userRepository, IMapper mapper)
         {
             _accountRepository = accountRepository;
+            _userRepository = userRepository;
+            _mapper = mapper;
         }
 
         public bool IsAccount(string login, string password)
@@ -20,10 +26,14 @@ namespace CryptoMonitor.BLL.Services
             return isAccount;
         }
 
-        public void UserRegistration(string login, string password, string lastName, string firstName) // переделать
+        public void AddUser(UserModel userDataModel) 
         {
-
-            _accountRepository.UserRegistration(login, password, lastName, firstName);
+            var mappedAccount = _mapper.Map<AccountDataModel>(userDataModel.Account);
+            var accountId = _accountRepository.AddAccount(mappedAccount);
+            var mappedUser = _mapper.Map<UserDataModel>(userDataModel);
+            mappedUser.AccountId = accountId;
+            _userRepository.AddUser(mappedUser);
+            _accountRepository.Save();
         }
 
         public int GetAccountId(string login)

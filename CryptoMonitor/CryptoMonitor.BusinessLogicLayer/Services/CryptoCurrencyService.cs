@@ -31,32 +31,38 @@ namespace CryptoMonitor.BLL.Services
             return cryptoCurrencyModels;
         }
 
-        public int GetCryptoCurrencyById(int id)
+        public CryptoCurrencyModel GetCryptoCurrencyById(int id)
         {
             var cryptoCurrency = _cryptoCurrencyRepository.GetCryptoCurrencyById(id);
-            return cryptoCurrency;
+            var mapped = _mapper.Map<CryptoCurrencyModel>(cryptoCurrency);
+            return mapped;
         }
 
-        public string GetCryptoCurrencyByName(string name)
+        public CryptoCurrencyModel GetCryptoCurrencyByName(string name)
         {
             var cryptoCurrency = _cryptoCurrencyRepository.GetCryptoCurrencyByName(name);
-            return cryptoCurrency;
+            var mapped = _mapper.Map<CryptoCurrencyModel>(cryptoCurrency);
+            return mapped;
         }
 
-        public void AddCryptoCurrency(string currencyName, decimal currencyPrice, DateTime updatedDate, string currencyImage)
+        public void AddCryptoCurrency(CryptoCurrencyModel cryptoCurrency)
         {
-            _cryptoCurrencyRepository.AddCryptoCurrency(currencyName, currencyPrice, updatedDate, currencyImage); // переделать
+            var mapped = _mapper.Map<CryptoCurrencyDataModel>(cryptoCurrency);
+            _cryptoCurrencyRepository.AddCryptoCurrency(mapped);
+            _cryptoCurrencyRepository.Save();
         }
 
         public void EditCryptoCurrency(CryptoCurrencyModel cryptoCurrency)
         {
-            var mapped = _mapper.Map<CryptoCurrencyDataModel>(cryptoCurrency); // посмотреть еще раз
+            var mapped = _mapper.Map<CryptoCurrencyDataModel>(cryptoCurrency);
             _cryptoCurrencyRepository.EditCryptoCurrency(mapped);
+            _cryptoCurrencyRepository.Save();
         }
 
         public void DeleteCryptoCurrency(int id)
         {
             _cryptoCurrencyRepository.DeleteCryptoCurrency(id);
+            _cryptoCurrencyRepository.Save();
         }
     }
 }

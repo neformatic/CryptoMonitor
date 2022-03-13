@@ -9,9 +9,9 @@ namespace CryptoMonitor.BLL.Interfaces
     public interface ICryptoCurrencyService
     {
         List<CryptoCurrencyModel> GetCryptoCurrencies();
-        int GetCryptoCurrencyById(int id);
-        string GetCryptoCurrencyByName(string name);
-        void AddCryptoCurrency(string currencyName, decimal currencyPrice, DateTime updatedDate, string currencyImage);
+        CryptoCurrencyModel GetCryptoCurrencyById(int id);
+        CryptoCurrencyModel GetCryptoCurrencyByName(string name);
+        void AddCryptoCurrency(CryptoCurrencyModel cryptoCurrency);
         void EditCryptoCurrency(CryptoCurrencyModel cryptoCurrency);
         void DeleteCryptoCurrency(int id);
     }
