@@ -7,9 +7,9 @@ using System.Text;
 
 namespace CryptoMonitor.BLL.Mapper
 {
-    public class MapperProfile : Profile
+    public class MapperProfileBLL : Profile
     {
-        public MapperProfile()
+        public MapperProfileBLL()
         {
             CreateMap<AccountDataModel, AccountModel>().ReverseMap();
             CreateMap<CryptoCurrencyDataModel, CryptoCurrencyModel>().ReverseMap();

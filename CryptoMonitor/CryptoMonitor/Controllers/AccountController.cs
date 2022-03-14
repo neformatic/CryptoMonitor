@@ -1,4 +1,6 @@
-﻿using CryptoMonitor.BLL.Interfaces;
+﻿using AutoMapper;
+using CryptoMonitor.BLL.DTO;
+using CryptoMonitor.BLL.Interfaces;
 using CryptoMonitor.Web.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -14,12 +16,14 @@ namespace CryptoMonitor.Web.Controllers
     {
         private readonly IAccountService _accountService;
         private readonly IRoleService _roleService;
+        private readonly IMapper _mapper;
         private string accountRole = string.Empty;
 
-        public AccountController(IAccountService accountService, IRoleService roleService)
+        public AccountController(IAccountService accountService, IRoleService roleService, IMapper mapper)
         {
             _accountService = accountService;
             _roleService = roleService;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -36,7 +40,8 @@ namespace CryptoMonitor.Web.Controllers
                 var isUser = _accountService.IsAccount(model.Login, model.Password);
                 if (!isUser)
                 {
-                    _accountService.UserRegistration(model.Login, model.Password, model.LastName, model.FirstName);
+                    var mapped = _mapper.Map<UserModel>(model);
+                    _accountService.AddUser(mapped);
                     await Authenticate(model.Login);
                     return RedirectToAction("Index", "User");
                 }

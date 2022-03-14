@@ -29,8 +29,6 @@ namespace CryptoMonitor.DAL.Repositories
                 AccountPassword = accountDataModel.AccountPassword,
                 Role = role
             }; 
-            _db.Account.Add(newAccount);
-            _db.SaveChanges();
             return newAccount.Id;
         }
 

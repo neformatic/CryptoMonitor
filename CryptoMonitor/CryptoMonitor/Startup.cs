@@ -7,15 +7,10 @@ using CryptoMonitor.DAL.Repositories;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CryptoMonitor
 {
@@ -31,13 +26,14 @@ namespace CryptoMonitor
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAutoMapper(typeof(MapperProfile)); // сделать для всех мапперов написать Артему по поводу DI для каждого слоя
+            services.AddAutoMapper(typeof(MapperProfileBLL), typeof(MapperProfileWEB)); // сделать для всех мапперов написать Артему по поводу DI для каждого слоя
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<ICryptoCurrencyService, CryptoCurrencyService>();
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<ICryptoCurrencyRepository, CryptoCurrencyRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();

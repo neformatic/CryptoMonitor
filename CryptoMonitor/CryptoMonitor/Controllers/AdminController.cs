@@ -1,4 +1,6 @@
-﻿using CryptoMonitor.BLL.Interfaces;
+﻿using AutoMapper;
+using CryptoMonitor.BLL.DTO;
+using CryptoMonitor.BLL.Interfaces;
 using CryptoMonitor.Web.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,9 +10,11 @@ namespace CryptoMonitor.Web.Controllers
     public class AdminController : Controller
     {
         private readonly ICryptoCurrencyService _currencyService;
-        public AdminController(ICryptoCurrencyService currencyService)
+        private readonly IMapper _mapper;
+        public AdminController(ICryptoCurrencyService currencyService, IMapper mapper)
         {
             _currencyService = currencyService;
+            _mapper = mapper;
         }
         // GET: AdminController
         public IActionResult Index()
@@ -35,9 +39,10 @@ namespace CryptoMonitor.Web.Controllers
         // POST: AdminController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(CryptoCurrencyViewModel currencyViewModel) // сделать маппинг в бл модели
+        public IActionResult Create(CryptoCurrencyViewModel currencyViewModel)
         {
-            _currencyService.AddCryptoCurrency(currencyViewModel.CurrencyName, currencyViewModel.CurrencyPrice, currencyViewModel.UpdatedDate, currencyViewModel.CurrencyImage);
+            var mapped = _mapper.Map<CryptoCurrencyModel>(currencyViewModel);
+            _currencyService.AddCryptoCurrency(mapped);
             return RedirectToAction("Index");
         }
 
