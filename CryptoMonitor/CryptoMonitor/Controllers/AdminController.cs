@@ -2,8 +2,12 @@
 using CryptoMonitor.BLL.DTO;
 using CryptoMonitor.BLL.Interfaces;
 using CryptoMonitor.Web.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CryptoMonitor.Web.Controllers
 {
@@ -20,7 +24,13 @@ namespace CryptoMonitor.Web.Controllers
         public IActionResult Index()
         {
             var currencyList = _currencyService.GetCryptoCurrencies();
-            return View(currencyList);
+            List<CryptoCurrencyViewModel> mappedModel = new List<CryptoCurrencyViewModel>();
+            foreach (var currency in currencyList)
+            {
+                var mapped = _mapper.Map<CryptoCurrencyViewModel>(currency);
+                mappedModel.Add(mapped);
+            }
+            return View(mappedModel);
         }
 
         // GET: AdminController/Details/5
@@ -53,25 +63,27 @@ namespace CryptoMonitor.Web.Controllers
         }
 
         //// POST: AdminController/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public IActionResult Edit(int id, CryptoCurrencyViewModel currencyViewModel)
-        //{
-        //    try
-        //    {
-        //        _currencyService.EditCryptoCurrency(id, currencyViewModel.CurrencyName, currencyViewModel.CurrencyPrice, currencyViewModel.UpdatedDate, currencyViewModel.CurrencyImage);
-        //    }
-        //    catch
-        //    {
-        //        return RedirectToAction("Index");
-        //    }
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(CryptoCurrencyViewModel currencyViewModel)
+        {
+            try
+            {
+                var mappedModel = _mapper.Map<CryptoCurrencyModel>(currencyViewModel);
+                _currencyService.EditCryptoCurrency(mappedModel);
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return RedirectToAction("Index");
+            }
+        }
 
-        // GET: AdminController/Delete/5
-        //public IActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
+        [HttpGet]
+        public IActionResult Delete()
+        {
+            return RedirectToAction("Index");
+        }
 
         // POST: AdminController/Delete/5
         [HttpPost]
@@ -85,8 +97,13 @@ namespace CryptoMonitor.Web.Controllers
             }
             catch
             {
-                return View();
+                return NotFound();
             }
+        }
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Authorization", "Account");
         }
     }
 }

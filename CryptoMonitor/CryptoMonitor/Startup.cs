@@ -3,6 +3,7 @@ using CryptoMonitor.BLL.Mapper;
 using CryptoMonitor.BLL.Services;
 using CryptoMonitor.DAL.Entities;
 using CryptoMonitor.DAL.Interfaces;
+using CryptoMonitor.DAL.Mapper;
 using CryptoMonitor.DAL.Repositories;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -26,7 +27,7 @@ namespace CryptoMonitor
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAutoMapper(typeof(MapperProfileBLL), typeof(MapperProfileWEB)); // сделать для всех мапперов написать Артему по поводу DI для каждого слоя
+            services.AddAutoMapper(typeof(MapperProfileDAL), typeof(MapperProfileBLL), typeof(MapperProfileWEB)); // сделать для всех мапперов написать Артему по поводу DI для каждого слоя
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAccountService, AccountService>();

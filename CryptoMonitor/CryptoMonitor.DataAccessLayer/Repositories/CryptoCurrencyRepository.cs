@@ -23,8 +23,12 @@ namespace CryptoMonitor.DAL.Repositories
         public List<CryptoCurrencyDataModel> GetCryptoCurrencies()
         {
             var cryptoCurrencies = _db.CryptoCurrency.ToList();
-            var mapped = _mapper.Map<List<CryptoCurrencyDataModel>>(cryptoCurrencies);
-            return mapped; 
+            var mappedModel = new List<CryptoCurrencyDataModel>();
+            foreach (var currency in cryptoCurrencies)
+            {
+                mappedModel.Add(_mapper.Map<CryptoCurrencyDataModel>(currency));
+            }
+            return mappedModel; 
         }
         public CryptoCurrencyDataModel GetCryptoCurrencyById(int id)
         {
@@ -74,8 +78,8 @@ namespace CryptoMonitor.DAL.Repositories
 
         public void DeleteCryptoCurrency(int id)
         {
-             var cryptoCurrency = _db.CryptoCurrency.Find(id);
-            _db.CryptoCurrency.Remove(cryptoCurrency);
+            var deletedCurrency = _db.CryptoCurrency.Find(id);
+            _db.CryptoCurrency.Remove(deletedCurrency);
         }
 
         public void Save()

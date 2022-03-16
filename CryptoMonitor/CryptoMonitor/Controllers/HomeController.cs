@@ -1,5 +1,7 @@
 ﻿using CryptoMonitor.DAL.Entities;
 using CryptoMonitor.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -17,6 +19,11 @@ namespace CryptoMonitor.Controllers
        public IActionResult Index()
         {
             return Content(User.Identity.Name);
+        }
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Authorization", "Account");
         }
     }
 }
