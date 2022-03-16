@@ -79,19 +79,12 @@ namespace CryptoMonitor.Web.Controllers
             }
         }
 
-        [HttpGet]
-        public IActionResult Delete()
-        {
-            return RedirectToAction("Index");
-        }
-
-        // POST: AdminController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        [HttpGet("{id}")]
         public IActionResult Delete(int id)
         {
             try
             {
+
                 _currencyService.DeleteCryptoCurrency(id);
                 return RedirectToAction("Index");
             }
@@ -100,6 +93,7 @@ namespace CryptoMonitor.Web.Controllers
                 return NotFound();
             }
         }
+
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
