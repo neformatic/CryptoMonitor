@@ -34,10 +34,18 @@ namespace CryptoMonitor.Web.Controllers
         }
 
         // GET: AdminController/Details/5
-        public IActionResult Details(int id) // переделать
+        public IActionResult Details(int id)
         {
-            var currencyById = _currencyService.GetCryptoCurrencyById(id);
-            return View(currencyById);
+            try
+            {
+                var currencyById = _currencyService.GetCryptoCurrencyById(id);
+                var mappedModel = _mapper.Map<CryptoCurrencyViewModel>(currencyById);
+                return View(mappedModel);
+            }
+            catch
+            {
+                return NotFound();
+            }
         }
 
         // GET: AdminController/Create

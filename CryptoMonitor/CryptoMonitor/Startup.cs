@@ -27,7 +27,7 @@ namespace CryptoMonitor
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAutoMapper(typeof(MapperProfileDAL), typeof(MapperProfileBLL), typeof(MapperProfileWEB)); // сделать для всех мапперов написать Артему по поводу DI для каждого слоя
+            services.AddAutoMapper(typeof(MapperProfileDAL), typeof(MapperProfileBLL), typeof(MapperProfileWEB));
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAccountService, AccountService>();
@@ -65,8 +65,8 @@ namespace CryptoMonitor
 
             app.UseRouting();
 
-            app.UseAuthentication();    // аутентификация
-            app.UseAuthorization();     // авторизация
+            app.UseAuthentication();
+            app.UseAuthorization(); 
 
             app.UseEndpoints(endpoints =>
             {

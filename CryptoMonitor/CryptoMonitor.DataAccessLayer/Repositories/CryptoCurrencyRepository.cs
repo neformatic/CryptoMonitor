@@ -57,7 +57,7 @@ namespace CryptoMonitor.DAL.Repositories
             {
                 CurrencyName = cryptoCurrencyDataModel.CurrencyName,
                 CurrencyPrice = cryptoCurrencyDataModel.CurrencyPrice,
-                UpdatedDate = cryptoCurrencyDataModel.UpdatedDate,
+                UpdatedDate = DateTime.Now,
                 CurrencyImage = cryptoCurrencyDataModel.CurrencyImage
             };
             _db.CryptoCurrency.Add(newCryptoCurrency);
@@ -72,7 +72,7 @@ namespace CryptoMonitor.DAL.Repositories
             }
             cryptoCurrency.CurrencyName = cryptoCurrencyDataModel.CurrencyName;
             cryptoCurrency.CurrencyPrice = cryptoCurrencyDataModel.CurrencyPrice;
-            cryptoCurrency.UpdatedDate = cryptoCurrencyDataModel.UpdatedDate;
+            cryptoCurrency.UpdatedDate = DateTime.Now;
             cryptoCurrency.CurrencyImage = cryptoCurrencyDataModel.CurrencyImage;
         }
 

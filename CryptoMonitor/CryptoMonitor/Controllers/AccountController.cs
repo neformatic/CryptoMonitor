@@ -43,7 +43,7 @@ namespace CryptoMonitor.Web.Controllers
                     var mapped = _mapper.Map<UserModel>(model);
                     _accountService.AddUser(mapped);
                     await Authenticate(model.Login);
-                    return RedirectToAction("Index", "User");
+                    return RedirectToAction("Authorization", "Account");
                 }
                 ModelState.AddModelError("Login", "Login is taken");
             }
