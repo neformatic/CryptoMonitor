@@ -3,18 +3,26 @@
 <h2>Hello from AdminController! It's index page.</h2>
 
 @{
-    ViewData["Title"] = "Crypto curriencies:"; 
+    ViewData["Title"] = "Admin page";
 }
 
-<a asp-action="Create">Add crypto currency</a>
+<input type="button" value="Create" onclick="location.href='@Url.Action("Create", "Admin")'" />
 
 <table class="table">
-    @foreach (var item in Model)
-     {
-        <tr><td>@item.CurrencyName</td>
-            <td>
-                <a asp-action="Details" asp-controller="Admin" asp-route-id="@item.Id">Details</a>
-            </td>
+    <tr>
+        <th>
+            <a asp-action="Index" asp-route-sortOrder="@ViewBag.SortByName">
+                Currency Name
+            </a>
+        </th>
     </tr>
-     }
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.CurrencyName</td>
+            <td>
+               <input type="button" value="Details" onclick="location.href='@Url.Action("Details", "Admin", new { id = item.Id})'" />
+            </td>
+        </tr>
+    }
 </table>

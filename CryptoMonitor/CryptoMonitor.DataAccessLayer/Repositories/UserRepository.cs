@@ -19,7 +19,8 @@ namespace CryptoMonitor.DAL.Repositories
             User newUser = new User
             {
                 FirstName = userDataModel.FirstName,
-                LastName = userDataModel.LastName
+                LastName = userDataModel.LastName,
+                AccountId = userDataModel.AccountId
             };
             _db.User.Add(newUser);
         }
