@@ -4,9 +4,12 @@ using CryptoMonitor.BLL.Interfaces;
 using CryptoMonitor.Web.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,10 +19,13 @@ namespace CryptoMonitor.Web.Controllers
     {
         private readonly ICryptoCurrencyService _currencyService;
         private readonly IMapper _mapper;
-        public AdminController(ICryptoCurrencyService currencyService, IMapper mapper)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public AdminController(ICryptoCurrencyService currencyService, IMapper mapper, IWebHostEnvironment webHostEnvironment)
         {
             _currencyService = currencyService;
             _mapper = mapper;
+            _webHostEnvironment = webHostEnvironment; // получим доступ к корневой папке wwwroot через IWebHostEnvironment
+
         }
         // GET: AdminController
         public IActionResult Index(SortState sortOrder = SortState.CurrencyNameAsc)
@@ -85,11 +91,39 @@ namespace CryptoMonitor.Web.Controllers
         // POST: AdminController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create([FromForm]CryptoCurrencyViewModel currencyViewModel)
+        public IActionResult Create(CryptoCurrencyViewModel currencyViewModel)
         {
-            var mapped = _mapper.Map<CryptoCurrencyModel>(currencyViewModel);
-            _currencyService.AddCryptoCurrency(mapped);
-            return RedirectToAction("Index");
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var images = HttpContext.Request.Form.Files;
+                    string webRootPath = _webHostEnvironment.WebRootPath;
+
+                    string addCurrencyImage = webRootPath + WebConstants.ImagePath;
+                    string imageName = Guid.NewGuid().ToString();
+                    string extension = Path.GetExtension(images[0].FileName);
+
+                    using (var fileStream = new FileStream(Path.Combine(addCurrencyImage, imageName + extension), FileMode.Create))
+                    {
+                        images[0].CopyTo(fileStream);
+                    }
+
+                    currencyViewModel.CurrencyImage = imageName + extension;
+
+                    var mapped = _mapper.Map<CryptoCurrencyModel>(currencyViewModel);
+                    _currencyService.AddCryptoCurrency(mapped);
+                    return RedirectToAction("Index");
+                }
+            }
+            catch
+            {
+
+                ModelState.AddModelError("Create", "Error!");
+            }
+            return NotFound();
+
+
         }
 
         // GET: AdminController/Edit/5
@@ -101,7 +135,7 @@ namespace CryptoMonitor.Web.Controllers
         //// POST: AdminController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit([FromForm]CryptoCurrencyViewModel currencyViewModel)
+        public IActionResult Edit([FromForm] CryptoCurrencyViewModel currencyViewModel)
         {
             try
             {
@@ -120,7 +154,6 @@ namespace CryptoMonitor.Web.Controllers
         {
             try
             {
-
                 _currencyService.DeleteCryptoCurrency(id);
                 return RedirectToAction("Index");
             }

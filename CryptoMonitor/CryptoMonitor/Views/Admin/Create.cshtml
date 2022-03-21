@@ -1,6 +1,6 @@
 ﻿@model CryptoCurrencyViewModel
 <h2>Add new crypto currency:</h2>
-<form class="row g-3" method="post" asp-action="Create" asp-controller="Admin">
+<form class="row g-3" method="post" asp-action="Create" asp-controller="Admin" enctype="multipart/form-data">
     <div class="col-md-3">
         <div class="validation" asp-validation-summary="ModelOnly"></div>
         <label for="CurrencyName" class="form-label">Crypto currency</label>

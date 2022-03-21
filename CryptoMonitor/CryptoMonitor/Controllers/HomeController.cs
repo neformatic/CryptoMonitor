@@ -18,7 +18,7 @@ namespace CryptoMonitor.Controllers
        [Authorize]
        public IActionResult Index()
         {
-            return Content(User.Identity.Name);
+            return View();
         }
         public async Task<IActionResult> Logout()
         {
