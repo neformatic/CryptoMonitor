@@ -8,7 +8,7 @@ namespace CryptoMonitor.BLL.Interfaces
     public interface IAccountService
     {
         bool IsAccount(string login, string password);
-        void AddUser(UserModel userDataModel);
+        void Registration(UserModel userDataModel);
         int GetAccountId(string login);
     }
 }

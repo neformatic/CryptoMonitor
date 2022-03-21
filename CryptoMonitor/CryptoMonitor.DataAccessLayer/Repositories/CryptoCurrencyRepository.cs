@@ -2,6 +2,7 @@
 using CryptoMonitor.DAL.DTO;
 using CryptoMonitor.DAL.Entities;
 using CryptoMonitor.DAL.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -80,6 +81,13 @@ namespace CryptoMonitor.DAL.Repositories
         {
             var deletedCurrency = _db.CryptoCurrency.Find(id);
             _db.CryptoCurrency.Remove(deletedCurrency);
+        }
+
+        public List<CryptoCurrencyDataModel> searchingCurrency(string searchString)
+        {
+            var currency = _db.CryptoCurrency.Where(c => c.CurrencyName.Contains(searchString)).ToList();
+            var mappedModel = _mapper.Map<List<CryptoCurrencyDataModel>>(currency);
+            return mappedModel;
         }
 
         public void Save()

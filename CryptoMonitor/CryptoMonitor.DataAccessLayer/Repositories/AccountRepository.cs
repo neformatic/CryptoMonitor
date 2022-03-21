@@ -23,12 +23,14 @@ namespace CryptoMonitor.DAL.Repositories
 
         public int AddAccount(AccountDataModel accountDataModel)
         {
-            var role = _db.Role.OrderBy(r => r.Id).First(); // уточнить, потому что не понял
+            var role = _db.Role.OrderByDescending(r => r.Id).First(); // уточнить, потому что не понял
             Account newAccount = new Account {
                 AccountLogin = accountDataModel.AccountLogin,
                 AccountPassword = accountDataModel.AccountPassword,
                 Role = role
-            }; 
+            };
+            _db.Account.Add(newAccount);
+            _db.SaveChanges();
             return newAccount.Id;
         }
 

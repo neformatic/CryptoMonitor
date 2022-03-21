@@ -26,7 +26,7 @@ namespace CryptoMonitor.BLL.Services
             return isAccount;
         }
 
-        public void AddUser(UserModel userDataModel) 
+        public void Registration(UserModel userDataModel) 
         {
             var mappedAccount = _mapper.Map<AccountDataModel>(userDataModel.Account);
             var accountId = _accountRepository.AddAccount(mappedAccount);

@@ -35,20 +35,26 @@ namespace CryptoMonitor.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Registration(RegistrationViewModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var isUser = _accountService.IsAccount(model.Login, model.Password);
-                if (!isUser)
+                if (ModelState.IsValid)
                 {
-                    var mapped = _mapper.Map<UserModel>(model);
-                    _accountService.AddUser(mapped);
-                    await Authenticate(model.Login);
-                    return RedirectToAction("Authorization", "Account");
+                    var isUser = _accountService.IsAccount(model.Login, model.Password);
+                    if (!isUser)
+                    {
+                        var mapped = _mapper.Map<UserModel>(model);
+                        _accountService.Registration(mapped);
+                        await Authenticate(model.Login);
+                        return RedirectToAction("Authorization", "Account");
+                    }
                 }
+            }
+            catch
+            {
                 ModelState.AddModelError("Login", "Login is taken");
             }
             return View(model);
-        }
+        }   
 
         [HttpGet]
         public IActionResult Authorization()
@@ -59,31 +65,36 @@ namespace CryptoMonitor.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Authorization(LoginViewModel model)
         {
-            if (ModelState.IsValid)
+            try
             {
-                var accountExist = _accountService.IsAccount(model.Login, model.Password);
-
-                if (accountExist)
+                if (ModelState.IsValid)
                 {
-                    await Authenticate(model.Login);
-                    var userId = _accountService.GetAccountId(model.Login);
-                    accountRole = _roleService.GetRole(userId);
+                    var accountExist = _accountService.IsAccount(model.Login, model.Password);
 
-                    switch (accountRole)
+                    if (accountExist)
                     {
-                        case "Admin":
-                            return RedirectToAction("Index", "Admin");
-                        case "Default user":
-                            return RedirectToAction("Index", "User");
-                        default:
-                            return RedirectToAction("Index", "Home");
+                        await Authenticate(model.Login);
+                        var userId = _accountService.GetAccountId(model.Login);
+                        accountRole = _roleService.GetRole(userId);
+
+                        switch (accountRole)
+                        {
+                            case "Admin":
+                                return RedirectToAction("Index", "Admin");
+                            case "Default user":
+                                return RedirectToAction("Index", "User");
+                            default:
+                                return RedirectToAction("Index", "Home");
+                        }
+
                     }
-
                 }
-                ModelState.AddModelError(string.Empty, "Некорректный логин и(или) пароль.");
-                return View(model);
             }
-
+            catch
+            {
+                ModelState.AddModelError(string.Empty, "Некорректный логин и(или) пароль.");
+            }
+            //return View(model);
             return RedirectToAction("Index", "Home");
 
         }
