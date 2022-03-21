@@ -57,7 +57,7 @@ namespace CryptoMonitor.Web.Controllers
         // POST: AdminController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(CryptoCurrencyViewModel currencyViewModel)
+        public IActionResult Create([FromForm]CryptoCurrencyViewModel currencyViewModel)
         {
             var mapped = _mapper.Map<CryptoCurrencyModel>(currencyViewModel);
             _currencyService.AddCryptoCurrency(mapped);
@@ -73,7 +73,7 @@ namespace CryptoMonitor.Web.Controllers
         //// POST: AdminController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(CryptoCurrencyViewModel currencyViewModel)
+        public IActionResult Edit([FromForm]CryptoCurrencyViewModel currencyViewModel)
         {
             try
             {

@@ -1,1 +1,58 @@
+<<<<<<< Updated upstream
 ﻿<h2>Hello from UserController! It's index page.</h2>
+=======
+﻿@model List<CryptoCurrencyViewModel>;
+
+<h2>Hello from UserController! It's index page.</h2>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+    <form class="d-flex">
+      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" value="@ViewData["GetStringForSearch"]" name="searchString" style="width:500px;"/>
+      <button class="btn btn-outline-success" type="submit">Search</button> | 
+      <a asp-action="Index">Back to Full List</a>
+      
+    </form>
+  </div>
+</nav>
+
+<table class="table">
+    <thead>
+        <tr>
+        <th>
+            <a asp-action="Index" asp-route-sortOrder="@ViewBag.SortByName" asp-route-searchString="@ViewData["GetStringForSearch"]">
+                Name
+            </a>
+        </th>
+         <th>
+            <a asp-action="Index" asp-route-sortOrder="@ViewBag.SortByPrice" asp-route-searchString="@ViewData["GetStringForSearch"]">
+                Price
+            </a>
+        </th>
+         <th>
+            <a asp-action="Index" asp-route-sortOrder="@ViewBag.SortByDate" asp-route-searchString="@ViewData["GetStringForSearch"]">
+                Updated date
+            </a>
+        </th>
+        <th>
+                Image
+        </th>
+    </tr>
+    </thead>
+    
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.CurrencyName</td>
+            <td>@item.CurrencyPrice</td>
+            <td>@item.UpdatedDate</td>
+            <td>@item.CurrencyImage</td>
+        </tr>
+    }
+</table>
+
+>>>>>>> Stashed changes

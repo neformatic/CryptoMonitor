@@ -41,11 +41,18 @@ namespace CryptoMonitor.Web.Controllers
             }
         }
 
+<<<<<<< Updated upstream
         // GET: UserController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
+=======
+            ViewData["GetStringForSearch"] = searchString;
+            ViewData["SortByName"] = sortOrder == SortState.CurrencyNameAsc ? SortState.CurrencyNameDesc : SortState.CurrencyNameAsc;
+            ViewData["SortByPrice"] = sortOrder == SortState.CurrencyPriceAsc ? SortState.CurrencyPriceDesc : SortState.CurrencyPriceAsc;
+            ViewData["SortByDate"] = sortOrder == SortState.CurrencyUpdatedDateAsc ? SortState.CurrencyUpdatedDateDesc : SortState.CurrencyUpdatedDateAsc;
+>>>>>>> Stashed changes
 
         // POST: UserController/Edit/5
         [HttpPost]

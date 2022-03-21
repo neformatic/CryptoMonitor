@@ -7,8 +7,11 @@
         <input type="text" class="form-control" name="currencyName" asp-for=CurrencyName required>
         <label for="CurrencyPrice" class="form-label">Currency price</label>
         <input type="text" class="form-control" name="currencyPrice" asp-for=CurrencyPrice required>
-        <label for="CurrencyImage" class="form-label">Currency image</label>
-        <input type="text" class="form-control" name="currencyImage" asp-for=CurrencyImage required><br />
+        <div class="form-group"> <br />
+    <label for="CurrencyImage">Add image</label>
+    <input type="file" class="form-control-file" name="currencyImage" asp-for=CurrencyImage required>
+  </div>
+<br />
         <button type="submit" class="btn btn-primary">Add currency</button>
     </div>
 </form>
