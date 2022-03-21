@@ -1,6 +1,9 @@
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 ﻿<h2>Hello from UserController! It's index page.</h2>
 =======
+=======
+>>>>>>> 1bb58dfca959324f792d11b8fe29c78f3ac897bd
 ﻿@model List<CryptoCurrencyViewModel>;
 
 <h2>Hello from UserController! It's index page.</h2>
@@ -12,6 +15,7 @@
 <nav class="navbar navbar-light bg-light">
   <div class="container-fluid">
     <form class="d-flex">
+<<<<<<< HEAD
       <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" value="@ViewData["GetStringForSearch"]" name="searchString" style="width:500px;"/>
       <button class="btn btn-outline-success" type="submit">Search</button> | 
       <a asp-action="Index">Back to Full List</a>
@@ -19,22 +23,40 @@
     </form>
   </div>
 </nav>
+=======
+      <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" value="@ViewData["GetCurrencyForSearch"]" name="searchString" style="width:500px;"/>
+      <button class="btn btn-outline-success" type="submit">Search</button>
+      <a asp-action="Index">Back to Full List</a>
+ 
+>>>>>>> 1bb58dfca959324f792d11b8fe29c78f3ac897bd
 
 <table class="table">
     <thead>
         <tr>
         <th>
+<<<<<<< HEAD
             <a asp-action="Index" asp-route-sortOrder="@ViewBag.SortByName" asp-route-searchString="@ViewData["GetStringForSearch"]">
+=======
+            <a asp-action="Index" asp-route-sortOrder="@ViewBag.SortByName">
+>>>>>>> 1bb58dfca959324f792d11b8fe29c78f3ac897bd
                 Name
             </a>
         </th>
          <th>
+<<<<<<< HEAD
             <a asp-action="Index" asp-route-sortOrder="@ViewBag.SortByPrice" asp-route-searchString="@ViewData["GetStringForSearch"]">
+=======
+            <a asp-action="Index" asp-route-sortOrder="@ViewBag.SortByPrice">
+>>>>>>> 1bb58dfca959324f792d11b8fe29c78f3ac897bd
                 Price
             </a>
         </th>
          <th>
+<<<<<<< HEAD
             <a asp-action="Index" asp-route-sortOrder="@ViewBag.SortByDate" asp-route-searchString="@ViewData["GetStringForSearch"]">
+=======
+            <a asp-action="Index" asp-route-sortOrder="@ViewBag.SortByDate">
+>>>>>>> 1bb58dfca959324f792d11b8fe29c78f3ac897bd
                 Updated date
             </a>
         </th>
@@ -54,5 +76,11 @@
         </tr>
     }
 </table>
+<<<<<<< HEAD
 
 >>>>>>> Stashed changes
+=======
+   </form>
+  </div>
+</nav>
+>>>>>>> 1bb58dfca959324f792d11b8fe29c78f3ac897bd

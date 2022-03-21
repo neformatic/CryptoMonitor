@@ -64,5 +64,12 @@ namespace CryptoMonitor.BLL.Services
             _cryptoCurrencyRepository.DeleteCryptoCurrency(id);
             _cryptoCurrencyRepository.Save();
         }
+
+        public List<CryptoCurrencyModel> searchingCurrency(string searchString)
+        {
+            var currency = _cryptoCurrencyRepository.searchingCurrency(searchString);
+            var mappedModel = _mapper.Map<List<CryptoCurrencyModel>>(currency);
+            return mappedModel;
+        }
     }
 }

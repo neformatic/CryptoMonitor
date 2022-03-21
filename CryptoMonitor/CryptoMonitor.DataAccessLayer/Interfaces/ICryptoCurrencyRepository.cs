@@ -12,6 +12,7 @@ namespace CryptoMonitor.DAL.Interfaces
         void AddCryptoCurrency(CryptoCurrencyDataModel cryptoCurrency);
         void EditCryptoCurrency(CryptoCurrencyDataModel cryptoCurrency);
         void DeleteCryptoCurrency(int id);
+        List<CryptoCurrencyDataModel> searchingCurrency(string searchString);
         void Save();
     }
 }

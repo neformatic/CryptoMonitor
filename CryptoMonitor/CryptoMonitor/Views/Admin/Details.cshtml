@@ -2,7 +2,7 @@
 
 <h2>Hello from AdminController! It's index page.</h2>
 
-@{ ViewData["Title"] = "Crypto curriency details:"; }
+@{ ViewData["Title"] = "Details"; }
 
 <table class="table">
 
@@ -17,10 +17,11 @@
         <td>@Model.UpdatedDate</td>
         <td>@Model.CurrencyImage</td>
         <td>
-            <a asp-action="Edit" asp-controller="Admin" asp-route-id="@Model.Id">Edit</a>
-            <a asp-action="Delete" asp-controller="Admin" asp-route-id="@Model.Id">Delete</a>
+            <input type="button" value="Edit" onclick="location.href='@Url.Action("Edit", "Admin", new { id = Model.Id})'"/> |
+            <input type="button" value="Delete" onclick="location.href='@Url.Action("Delete", "Admin", new { id = Model.Id})'" />
         </td>
     </tr>
-    </tr>
+    <a asp-action="Index">Back to List</a>
 
 </table>
+
