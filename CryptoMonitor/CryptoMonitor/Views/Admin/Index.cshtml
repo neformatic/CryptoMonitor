@@ -11,9 +11,14 @@
 <table class="table">
     <tr>
         <th>
-            <a asp-action="Index" asp-route-sortOrder="@ViewBag.SortByName">
+            CurrencyImage
+        </th>
+        <th>
+            <a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewBag.SortByName">
                 Currency Name
             </a>
+           
         </th>
     </tr>
     @foreach (var item in Model)

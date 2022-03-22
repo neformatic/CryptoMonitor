@@ -4,6 +4,7 @@ using CryptoMonitor.BLL.Interfaces;
 using CryptoMonitor.Web.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,7 @@ using System.Threading.Tasks;
 
 namespace CryptoMonitor.Web.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
         private readonly ICryptoCurrencyService _currencyService;
@@ -25,7 +27,6 @@ namespace CryptoMonitor.Web.Controllers
             _currencyService = currencyService;
             _mapper = mapper;
             _webHostEnvironment = webHostEnvironment; // получим доступ к корневой папке wwwroot через IWebHostEnvironment
-
         }
         // GET: AdminController
         public IActionResult Index(SortState sortOrder = SortState.CurrencyNameAsc)
@@ -33,6 +34,18 @@ namespace CryptoMonitor.Web.Controllers
             var currencyList = _currencyService.GetCryptoCurrencies();
 
             var sortedList = new List<CryptoCurrencyModel>();
+
+            foreach (var currency in currencyList)
+            {
+                if (currency.CurrencyImage == null)
+                {
+                    
+                }
+                else
+                {
+                    currency.CurrencyImage = Path.Combine(WebConstants.ImagePath, currency.CurrencyImage);
+                }
+            }
 
             ViewData["SortByName"] = sortOrder == SortState.CurrencyNameAsc ? SortState.CurrencyNameDesc : SortState.CurrencyNameAsc;
             ViewData["SortByPrice"] = sortOrder == SortState.CurrencyPriceAsc ? SortState.CurrencyPriceDesc : SortState.CurrencyPriceAsc;
@@ -91,7 +104,7 @@ namespace CryptoMonitor.Web.Controllers
         // POST: AdminController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(CryptoCurrencyViewModel currencyViewModel)
+        public IActionResult Create([FromForm]CryptoCurrencyViewModel currencyViewModel)
         {
             try
             {
@@ -118,10 +131,9 @@ namespace CryptoMonitor.Web.Controllers
             }
             catch
             {
-
                 ModelState.AddModelError("Create", "Error!");
             }
-            return NotFound();
+            return View();
 
 
         }
@@ -135,18 +147,40 @@ namespace CryptoMonitor.Web.Controllers
         //// POST: AdminController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit([FromForm] CryptoCurrencyViewModel currencyViewModel)
+        public IActionResult Edit(int id, [FromForm] CryptoCurrencyViewModel currencyViewModel)
         {
             try
             {
-                var mappedModel = _mapper.Map<CryptoCurrencyModel>(currencyViewModel);
-                _currencyService.EditCryptoCurrency(mappedModel);
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    var images = HttpContext.Request.Form.Files;
+                    string webRootPath = _webHostEnvironment.WebRootPath;
+
+                    string addCurrencyImage = webRootPath + WebConstants.ImagePath;
+                    string imageName = Guid.NewGuid().ToString();
+                    string extension = Path.GetExtension(images[0].FileName);
+
+                    using (var fileStream = new FileStream(Path.Combine(addCurrencyImage, imageName + extension), FileMode.Create))
+                    {
+                        images[0].CopyTo(fileStream);
+                    }
+
+                    currencyViewModel.CurrencyImage = imageName + extension;
+
+                    var mappedModel = _mapper.Map<CryptoCurrencyModel>(currencyViewModel);
+                    mappedModel.Id = id;
+                    var currencyById = _currencyService.GetCryptoCurrencyById(id);
+                    var filePath = webRootPath + WebConstants.ImagePath + "\\" + currencyById.CurrencyImage;
+                    System.IO.File.Delete(filePath);
+                    _currencyService.EditCryptoCurrency(mappedModel);
+                    return RedirectToAction("Index");
+                }
             }
             catch
             {
                 return NotFound();
             }
+            return View();
         }
 
         [HttpGet("{id}")]
