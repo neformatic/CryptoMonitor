@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CryptoMonitor.Common;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CryptoMonitor.DAL.Entities
@@ -9,10 +10,8 @@ namespace CryptoMonitor.DAL.Entities
         public int Id { get; set; }
         public string AccountLogin { get; set; }
         public string AccountPassword { get; set; }
-        public int RoleId { get; set; }
+        public RoleTypes Role { get; set; }
 
-        [ForeignKey("RoleId")]
-        public virtual Role Role { get; set; }
         public virtual User User { get; set; }
     }
 }

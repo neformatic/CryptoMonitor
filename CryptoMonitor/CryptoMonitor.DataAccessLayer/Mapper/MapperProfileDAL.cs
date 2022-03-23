@@ -13,7 +13,6 @@ namespace CryptoMonitor.DAL.Mapper
         {
             CreateMap<AccountDataModel, Account>().ReverseMap();
             CreateMap<CryptoCurrencyDataModel, CryptoCurrency>().ReverseMap();
-            CreateMap<RoleDataModel, Role>().ReverseMap();
             CreateMap<UserDataModel, User>().ReverseMap();
         }
     }

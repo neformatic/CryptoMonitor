@@ -1,4 +1,5 @@
-﻿using CryptoMonitor.DAL.DTO;
+﻿using CryptoMonitor.Common;
+using CryptoMonitor.DAL.DTO;
 using CryptoMonitor.DAL.Entities;
 using CryptoMonitor.DAL.Interfaces;
 using System.Collections.Generic;
@@ -23,11 +24,10 @@ namespace CryptoMonitor.DAL.Repositories
 
         public int AddAccount(AccountDataModel accountDataModel)
         {
-            var role = _db.Role.OrderByDescending(r => r.Id).First(); // уточнить, потому что не понял
             Account newAccount = new Account {
                 AccountLogin = accountDataModel.AccountLogin,
                 AccountPassword = accountDataModel.AccountPassword,
-                Role = role
+                Role = RoleTypes.DefaultUser
             };
             _db.Account.Add(newAccount);
             _db.SaveChanges();

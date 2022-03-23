@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CryptoMonitor.BLL.DTO;
 using CryptoMonitor.BLL.Interfaces;
+using CryptoMonitor.Common;
 using CryptoMonitor.Web.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -15,14 +16,12 @@ namespace CryptoMonitor.Web.Controllers
     public class AccountController : Controller
     {
         private readonly IAccountService _accountService;
-        private readonly IRoleService _roleService;
         private readonly IMapper _mapper;
-        private string accountRole = string.Empty;
 
-        public AccountController(IAccountService accountService, IRoleService roleService, IMapper mapper)
+        public AccountController(IAccountService accountService, IMapper mapper)
         {
             _accountService = accountService;
-            _roleService = roleService;
+
             _mapper = mapper;
         }
 
@@ -39,12 +38,12 @@ namespace CryptoMonitor.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var isUser = _accountService.IsAccount(model.Login, model.Password);
+                    var isUser = _accountService.GetUser(model.Login, model.Password); // модель пользователя вернуть
                     if (!isUser)
                     {
                         var mapped = _mapper.Map<UserModel>(model);
                         _accountService.Registration(mapped);
-                        await Authenticate(model.Login);
+                        await Authenticate(model.Login, RoleTypes.DefaultUser);
                         return RedirectToAction("Authorization", "Account");
                     }
                 }
@@ -69,19 +68,18 @@ namespace CryptoMonitor.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var accountExist = _accountService.IsAccount(model.Login, model.Password);
+                    var accountExist = _accountService.IsAccount(model.Login, model.Password); // получать модель аккаунта по логину и паролю
 
                     if (accountExist)
                     {
-                        await Authenticate(model.Login);
                         var userId = _accountService.GetAccountId(model.Login);
-                        accountRole = _roleService.GetRole(userId);
-
+                        var accountRole = RoleTypes.Admin;
+                        await Authenticate(model.Login, accountRole);
                         switch (accountRole)
                         {
-                            case "Admin":
+                            case RoleTypes.Admin:
                                 return RedirectToAction("Index", "Admin");
-                            case "Default user":
+                            case RoleTypes.DefaultUser:
                                 return RedirectToAction("Index", "User");
                             default:
                                 return RedirectToAction("Index", "Home");
@@ -99,12 +97,13 @@ namespace CryptoMonitor.Web.Controllers
 
         }
 
-        private async Task Authenticate(string login)
+        private async Task Authenticate(string login, RoleTypes accountRole)
         {
+            var role = accountRole.ToString(); 
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, login),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, accountRole),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType,  role),
             };
 
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);

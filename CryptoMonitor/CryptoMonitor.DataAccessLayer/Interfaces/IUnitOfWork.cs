@@ -10,7 +10,6 @@ namespace CryptoMonitor.DAL.Interfaces
     {
         IAccountRepository AccountRepository { get; set; }
         ICryptoCurrencyRepository CryptoCurrencyRepository { get; set; }
-        IRoleRepository RoleRepository { get; set; }
         IUserRepository UserRepository { get; set; }
 
         void Save();

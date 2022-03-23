@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CryptoMonitor.BLL.DTO;
 using CryptoMonitor.BLL.Interfaces;
+using CryptoMonitor.Common;
 using CryptoMonitor.Web.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -16,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace CryptoMonitor.Web.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = nameof(RoleTypes.Admin))]
     public class AdminController : Controller
     {
         private readonly ICryptoCurrencyService _currencyService;
@@ -81,6 +82,7 @@ namespace CryptoMonitor.Web.Controllers
         }
 
         // GET: AdminController/Details/5
+        //[Authorize(Roles = "Admin")]
         public IActionResult Details(int id)
         {
             try
@@ -96,6 +98,7 @@ namespace CryptoMonitor.Web.Controllers
         }
 
         // GET: AdminController/Create
+        //[Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -104,6 +107,7 @@ namespace CryptoMonitor.Web.Controllers
         // POST: AdminController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        //[Authorize(Roles = "Admin")]
         public IActionResult Create([FromForm]CryptoCurrencyViewModel currencyViewModel)
         {
             try
@@ -139,6 +143,7 @@ namespace CryptoMonitor.Web.Controllers
         }
 
         // GET: AdminController/Edit/5
+        //[Authorize(Roles = "Admin")]
         public IActionResult Edit(int id)
         {
             return View();
@@ -147,6 +152,7 @@ namespace CryptoMonitor.Web.Controllers
         //// POST: AdminController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
+        //[Authorize(Roles = "Admin")]
         public IActionResult Edit(int id, [FromForm] CryptoCurrencyViewModel currencyViewModel)
         {
             try
@@ -184,6 +190,7 @@ namespace CryptoMonitor.Web.Controllers
         }
 
         [HttpGet("{id}")]
+        //[Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
             try

@@ -11,14 +11,12 @@ namespace CryptoMonitor.DAL.Repositories
         private readonly CryptoMonitorDbContext _dbContext;
         public IAccountRepository AccountRepository { get; set; }
         public ICryptoCurrencyRepository CryptoCurrencyRepository { get; set; }
-        public IRoleRepository RoleRepository { get; set; }
         public IUserRepository UserRepository { get; set; }
 
-        public UnitOfWork(IAccountRepository accountRepository, ICryptoCurrencyRepository cryptoCurrencyRepository, IRoleRepository roleRepository, IUserRepository userRepository, CryptoMonitorDbContext dbContext)
+        public UnitOfWork(IAccountRepository accountRepository, ICryptoCurrencyRepository cryptoCurrencyRepository, IUserRepository userRepository, CryptoMonitorDbContext dbContext)
         {
             AccountRepository = accountRepository;
             CryptoCurrencyRepository = cryptoCurrencyRepository;
-            RoleRepository = roleRepository;
             UserRepository = userRepository;
             _dbContext = dbContext;
         }
