@@ -32,57 +32,64 @@ namespace CryptoMonitor.Web.Controllers
         // GET: AdminController
         public IActionResult Index(SortState sortOrder = SortState.CurrencyNameAsc)
         {
-            var currencyList = _currencyService.GetCryptoCurrencies();
-
-            var sortedList = new List<CryptoCurrencyModel>();
-
-            foreach (var currency in currencyList)
+            try
             {
-                if (currency.CurrencyImage == null)
+                var currencyList = _currencyService.GetCryptoCurrencies();
+
+                var sortedList = new List<CryptoCurrencyModel>();
+
+                foreach (var currency in currencyList)
                 {
-                    
+                    if (currency.CurrencyImage == null)
+                    {
+
+                    }
+                    else
+                    {
+                        currency.CurrencyImage = Path.Combine(WebConstants.ImagePath, currency.CurrencyImage);
+                    }
                 }
-                else
+
+                ViewData["SortByName"] = sortOrder == SortState.CurrencyNameAsc ? SortState.CurrencyNameDesc : SortState.CurrencyNameAsc;
+                ViewData["SortByPrice"] = sortOrder == SortState.CurrencyPriceAsc ? SortState.CurrencyPriceDesc : SortState.CurrencyPriceAsc;
+                ViewData["SortByDate"] = sortOrder == SortState.CurrencyUpdatedDateAsc ? SortState.CurrencyUpdatedDateDesc : SortState.CurrencyUpdatedDateAsc;
+
+                switch (sortOrder)
                 {
-                    currency.CurrencyImage = Path.Combine(WebConstants.ImagePath, currency.CurrencyImage);
+                    case SortState.CurrencyNameAsc:
+                        sortedList = currencyList.OrderBy(c => c.CurrencyName).ToList();
+                        break;
+                    case SortState.CurrencyNameDesc:
+                        sortedList = currencyList.OrderByDescending(c => c.CurrencyName).ToList();
+                        break;
+                    case SortState.CurrencyPriceAsc:
+                        sortedList = currencyList.OrderBy(c => c.CurrencyPrice).ToList();
+                        break;
+                    case SortState.CurrencyPriceDesc:
+                        sortedList = currencyList.OrderByDescending(c => c.CurrencyPrice).ToList();
+                        break;
+                    case SortState.CurrencyUpdatedDateAsc:
+                        sortedList = currencyList.OrderBy(c => c.UpdatedDate).ToList();
+                        break;
+                    case SortState.CurrencyUpdatedDateDesc:
+                        sortedList = currencyList.OrderByDescending(c => c.UpdatedDate).ToList();
+                        break;
+                    default:
+                        break;
                 }
+
+                List<CryptoCurrencyViewModel> mappedModel = _mapper.Map<List<CryptoCurrencyViewModel>>(sortedList);
+
+                return View(mappedModel);
             }
-
-            ViewData["SortByName"] = sortOrder == SortState.CurrencyNameAsc ? SortState.CurrencyNameDesc : SortState.CurrencyNameAsc;
-            ViewData["SortByPrice"] = sortOrder == SortState.CurrencyPriceAsc ? SortState.CurrencyPriceDesc : SortState.CurrencyPriceAsc;
-            ViewData["SortByDate"] = sortOrder == SortState.CurrencyUpdatedDateAsc ? SortState.CurrencyUpdatedDateDesc : SortState.CurrencyUpdatedDateAsc;
-
-            switch (sortOrder)
+            catch
             {
-                case SortState.CurrencyNameAsc:
-                    sortedList = currencyList.OrderBy(c => c.CurrencyName).ToList();
-                    break;
-                case SortState.CurrencyNameDesc:
-                    sortedList = currencyList.OrderByDescending(c => c.CurrencyName).ToList();
-                    break;
-                case SortState.CurrencyPriceAsc:
-                    sortedList = currencyList.OrderBy(c => c.CurrencyPrice).ToList();
-                    break;
-                case SortState.CurrencyPriceDesc:
-                    sortedList = currencyList.OrderByDescending(c => c.CurrencyPrice).ToList();
-                    break;
-                case SortState.CurrencyUpdatedDateAsc:
-                    sortedList = currencyList.OrderBy(c => c.UpdatedDate).ToList();
-                    break;
-                case SortState.CurrencyUpdatedDateDesc:
-                    sortedList = currencyList.OrderByDescending(c => c.UpdatedDate).ToList();
-                    break;
-                default:
-                    break;
+
+                return StatusCode(500, "Internal server error");
             }
-
-            List<CryptoCurrencyViewModel> mappedModel = _mapper.Map<List<CryptoCurrencyViewModel>>(sortedList);
-
-            return View(mappedModel);
         }
 
         // GET: AdminController/Details/5
-        //[Authorize(Roles = "Admin")]
         public IActionResult Details(int id)
         {
             try
@@ -93,12 +100,11 @@ namespace CryptoMonitor.Web.Controllers
             }
             catch
             {
-                return NotFound();
+                return StatusCode(500, "Internal server error");
             }
         }
 
         // GET: AdminController/Create
-        //[Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -107,7 +113,6 @@ namespace CryptoMonitor.Web.Controllers
         // POST: AdminController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //[Authorize(Roles = "Admin")]
         public IActionResult Create([FromForm]CryptoCurrencyViewModel currencyViewModel)
         {
             try
@@ -117,11 +122,11 @@ namespace CryptoMonitor.Web.Controllers
                     var images = HttpContext.Request.Form.Files;
                     string webRootPath = _webHostEnvironment.WebRootPath;
 
-                    string addCurrencyImage = webRootPath + WebConstants.ImagePath;
+                    string pathCurrencyImage = webRootPath + WebConstants.ImagePath;
                     string imageName = Guid.NewGuid().ToString();
                     string extension = Path.GetExtension(images[0].FileName);
 
-                    using (var fileStream = new FileStream(Path.Combine(addCurrencyImage, imageName + extension), FileMode.Create))
+                    using (var fileStream = new FileStream(Path.Combine(pathCurrencyImage, imageName + extension), FileMode.Create))
                     {
                         images[0].CopyTo(fileStream);
                     }
@@ -135,24 +140,29 @@ namespace CryptoMonitor.Web.Controllers
             }
             catch
             {
-                ModelState.AddModelError("Create", "Error!");
+                return StatusCode(500, "Internal server error");
             }
             return View();
-
-
         }
 
         // GET: AdminController/Edit/5
-        //[Authorize(Roles = "Admin")]
         public IActionResult Edit(int id)
         {
-            return View();
+            try
+            {
+                var editModel = _currencyService.GetCryptoCurrencyById(id);
+                var mappedModel = _mapper.Map<CryptoCurrencyViewModel>(editModel);
+                return View(mappedModel);
+            }
+            catch
+            {
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         //// POST: AdminController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //[Authorize(Roles = "Admin")]
         public IActionResult Edit(int id, [FromForm] CryptoCurrencyViewModel currencyViewModel)
         {
             try
@@ -162,17 +172,16 @@ namespace CryptoMonitor.Web.Controllers
                     var images = HttpContext.Request.Form.Files;
                     string webRootPath = _webHostEnvironment.WebRootPath;
 
-                    string addCurrencyImage = webRootPath + WebConstants.ImagePath;
+                    string pathCurrencyImage = webRootPath + WebConstants.ImagePath;
                     string imageName = Guid.NewGuid().ToString();
                     string extension = Path.GetExtension(images[0].FileName);
 
-                    using (var fileStream = new FileStream(Path.Combine(addCurrencyImage, imageName + extension), FileMode.Create))
+                    using (var fileStream = new FileStream(Path.Combine(pathCurrencyImage, imageName + extension), FileMode.Create))
                     {
                         images[0].CopyTo(fileStream);
                     }
 
                     currencyViewModel.CurrencyImage = imageName + extension;
-
                     var mappedModel = _mapper.Map<CryptoCurrencyModel>(currencyViewModel);
                     mappedModel.Id = id;
                     var currencyById = _currencyService.GetCryptoCurrencyById(id);
@@ -184,13 +193,12 @@ namespace CryptoMonitor.Web.Controllers
             }
             catch
             {
-                return NotFound();
+                return StatusCode(500, "Internal server error");
             }
             return View();
         }
 
         [HttpGet("{id}")]
-        //[Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
             try
@@ -200,7 +208,7 @@ namespace CryptoMonitor.Web.Controllers
             }
             catch
             {
-                return NotFound();
+                return StatusCode(500, "Internal server error");
             }
         }
 

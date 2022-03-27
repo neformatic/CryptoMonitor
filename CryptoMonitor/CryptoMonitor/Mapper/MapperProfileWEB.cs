@@ -13,7 +13,6 @@ namespace CryptoMonitor.BLL.Mapper
         public MapperProfileWEB()
         {
             CreateMap<CryptoCurrencyViewModel, CryptoCurrencyModel>().ReverseMap();
-            CreateMap<ShortCurrencyViewModel, CryptoCurrencyModel>().ReverseMap();
             CreateMap<RegistrationViewModel, UserModel>()
                 .ForPath(u => u.Account.AccountLogin, opt => opt.MapFrom(r => r.Login))
                 .ForPath(u => u.Account.AccountPassword, opt => opt.MapFrom(r => r.Password)).ReverseMap();

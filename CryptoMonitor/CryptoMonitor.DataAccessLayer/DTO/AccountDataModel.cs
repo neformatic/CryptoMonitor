@@ -1,4 +1,5 @@
-﻿using CryptoMonitor.DAL.Entities;
+﻿using CryptoMonitor.Common;
+using CryptoMonitor.DAL.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,6 +11,6 @@ namespace CryptoMonitor.DAL.DTO
         public int Id { get; set; }
         public string AccountLogin { get; set; }
         public string AccountPassword { get; set; }
-        public int RoleId { get; set; }
+        public RoleTypes Role { get; set; }
     }
 }

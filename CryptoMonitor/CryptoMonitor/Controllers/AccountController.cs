@@ -38,8 +38,8 @@ namespace CryptoMonitor.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var isUser = _accountService.GetUser(model.Login, model.Password); // модель пользователя вернуть
-                    if (!isUser)
+                    var accountModel = _accountService.GetAccountModel(model.Login, model.Password); // модель пользователя вернуть
+                    if (accountModel == null)
                     {
                         var mapped = _mapper.Map<UserModel>(model);
                         _accountService.Registration(mapped);
@@ -68,12 +68,11 @@ namespace CryptoMonitor.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var accountExist = _accountService.IsAccount(model.Login, model.Password); // получать модель аккаунта по логину и паролю
+                    var accountModel = _accountService.GetAccountModel(model.Login, model.Password); // получать модель аккаунта по логину и паролю
 
-                    if (accountExist)
+                    if (accountModel != null)
                     {
-                        var userId = _accountService.GetAccountId(model.Login);
-                        var accountRole = RoleTypes.Admin;
+                        var accountRole = accountModel.Role;
                         await Authenticate(model.Login, accountRole);
                         switch (accountRole)
                         {

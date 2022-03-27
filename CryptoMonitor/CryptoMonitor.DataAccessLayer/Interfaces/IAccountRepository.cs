@@ -4,7 +4,7 @@ namespace CryptoMonitor.DAL.Interfaces
 {
     public interface IAccountRepository
     {
-        bool IsAccount(string login, string password);
+        AccountDataModel GetAccountModel(string login, string password);
         int AddAccount(AccountDataModel accountDataModel);
         int GetAccountId(string login);
         void Save();

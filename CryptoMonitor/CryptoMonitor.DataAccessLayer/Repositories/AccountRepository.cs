@@ -1,4 +1,5 @@
-﻿using CryptoMonitor.Common;
+﻿using AutoMapper;
+using CryptoMonitor.Common;
 using CryptoMonitor.DAL.DTO;
 using CryptoMonitor.DAL.Entities;
 using CryptoMonitor.DAL.Interfaces;
@@ -11,15 +12,18 @@ namespace CryptoMonitor.DAL.Repositories
     public class AccountRepository : IAccountRepository
     {
         private readonly CryptoMonitorDbContext _db;
-        public AccountRepository(CryptoMonitorDbContext db) 
+        private readonly IMapper _mapper;
+        public AccountRepository(CryptoMonitorDbContext db, IMapper mapper) 
         {
             _db = db;
+            _mapper = mapper;
         }
         
-        public bool IsAccount(string login, string password)
+        public AccountDataModel GetAccountModel(string login, string password)
         {
             var userAccount = _db.Account.FirstOrDefault(a => a.AccountLogin == login && a.AccountPassword == password);
-            return userAccount != null;
+            var mappedModel = _mapper.Map<AccountDataModel>(userAccount);
+            return mappedModel;
         }
 
         public int AddAccount(AccountDataModel accountDataModel)

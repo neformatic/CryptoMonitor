@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
 using CryptoMonitor.BLL.DTO;
 using CryptoMonitor.BLL.Interfaces;
+using CryptoMonitor.Common;
 using CryptoMonitor.Web.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace CryptoMonitor.Web.Controllers
 {
+    [Authorize]
     public class UserController : Controller
     {
         private readonly ICryptoCurrencyService _currencyService;

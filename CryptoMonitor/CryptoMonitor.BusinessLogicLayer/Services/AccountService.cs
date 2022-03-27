@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using CryptoMonitor.BLL.DTO;
 using CryptoMonitor.BLL.Interfaces;
+using CryptoMonitor.Common;
 using CryptoMonitor.DAL.DTO;
 using CryptoMonitor.DAL.Interfaces;
 using CryptoMonitor.DAL.Repositories;
@@ -20,10 +21,11 @@ namespace CryptoMonitor.BLL.Services
             _mapper = mapper;
         }
 
-        public bool IsAccount(string login, string password)
+        public AccountModel GetAccountModel(string login, string password)
         {
-            var isAccount = _accountRepository.IsAccount(login, password);
-            return isAccount;
+            var acccountModel = _accountRepository.GetAccountModel(login, password);
+            var mappedModel = _mapper.Map<AccountModel>(acccountModel);
+            return mappedModel;
         }
 
         public void Registration(UserModel userDataModel) 

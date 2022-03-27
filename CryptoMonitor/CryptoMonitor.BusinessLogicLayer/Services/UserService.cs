@@ -8,9 +8,6 @@ namespace CryptoMonitor.BLL.Services
 {
     public class UserService : IUserService
     {
-        public void AddUser(UserModel userDataModel)
-        {
-
-        }
+ 
     }
 }
