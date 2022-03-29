@@ -37,6 +37,9 @@
                     Updated date
                 </a>
             </th>
+             <th>
+                    Do Bet
+            </th>
 
         </tr>
     </thead>
@@ -53,6 +56,7 @@
                     Bet
                 </button>
             </td>
+   @*         <td>@item.CurrencyBet</td>*@
         </tr>
     }
 </table>
@@ -71,31 +75,32 @@
                         <label for="BetModal" class="form-label">Input you Bet:</label>
                         <input type="text" class="form-control" name="modal" required>
                     </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save Bet</button>
+                    </div>
                 </form>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save Bet</button>
-            </div>
+
         </div>
     </div>
 </div>
 
 @*<script>
     var exampleModal = document.getElementById('betModal')
-exampleModal.addEventListener('show.bs.modal', function (event) {
-  // Button that triggered the modal
-  var button = event.relatedTarget
-  // Extract info from data-bs-* attributes
-  var recipient = button.getAttribute('data-bs-whatever')
-  // If necessary, you could initiate an AJAX request here
-  // and then do the updating in a callback.
-  //
-  // Update the modal's content.
-  var modalTitle = betModal.querySelector('.modal-title')
-  var modalBodyInput = betModal.querySelector('.modal-body input')
+    exampleModal.addEventListener('show.bs.modal', function (event) {
+    // Button that triggered the modal
+    var button = event.relatedTarget
+    // Extract info from data-bs-* attributes
+    var recipient = button.getAttribute('data-bs-whatever')
+    // If necessary, you could initiate an AJAX request here
+    // and then do the updating in a callback.
+    //
+    // Update the modal's content.
+    var modalTitle = betModal.querySelector('.modal-title')
+    var modalBodyInput = betModal.querySelector('.modal-body input')
 
-  modalTitle.textContent = 'New message to ' + recipient
-  modalBodyInput.value = recipient
-})
-</script>*@
+    modalTitle.textContent = 'New message to ' + recipient
+    modalBodyInput.value = recipient
+    })
+    </script>*@

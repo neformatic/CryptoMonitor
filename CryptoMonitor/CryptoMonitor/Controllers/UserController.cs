@@ -28,7 +28,7 @@ namespace CryptoMonitor.Web.Controllers
         }
 
         // GET: UserController
-        public ActionResult Index(string searchString, SortState sortOrder = SortState.CurrencyNameAsc)
+        public ActionResult Index(string searchString, SortState sortOrder = SortState.CurrencyNameAsc) // добавить ставку от Юзера на отдельный экшен
         {
             var currencyList = new List<CryptoCurrencyModel>();
 
