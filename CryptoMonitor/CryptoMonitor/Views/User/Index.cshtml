@@ -56,7 +56,7 @@
                     Bet
                 </button>
             </td>
-   @*         <td>@item.CurrencyBet</td>*@
+            <td>@item.UserBet</td>
         </tr>
     }
 </table>
@@ -66,11 +66,11 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="betModalLabel">Set your desired bet</h5>
+                <h5 class="modal-title" id="betModalLabel">Bet</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form class="row g-3" method="post" asp-action="Index" asp-controller="User">
+                <form class="row g-3" method="post" asp-action="Bet" asp-controller="User">
                     <div class="col-md-3">
                         <label for="BetModal" class="form-label">Input you Bet:</label>
                         <input type="text" class="form-control" name="modal" required>

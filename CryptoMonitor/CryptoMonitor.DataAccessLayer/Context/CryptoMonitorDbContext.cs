@@ -16,5 +16,6 @@ namespace CryptoMonitor.DAL.Entities
         public DbSet<Account> Account { get; set; }
         public DbSet<CryptoCurrency> CryptoCurrency { get; set; }
         public DbSet<User> User { get; set; }
+        public DbSet<Bet> Bet { get; set; }
     }
 }

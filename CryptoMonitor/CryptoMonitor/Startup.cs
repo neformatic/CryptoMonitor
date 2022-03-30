@@ -38,6 +38,8 @@ namespace CryptoMonitor
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<ICryptoCurrencyRepository, CryptoCurrencyRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IBetService, BetService>();
+            services.AddScoped<IBetRepository, BetRepository>();
             services.AddDbContext<CryptoMonitorDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

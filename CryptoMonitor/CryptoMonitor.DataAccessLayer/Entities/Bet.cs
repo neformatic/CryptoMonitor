@@ -10,9 +10,9 @@ namespace CryptoMonitor.DAL.Entities
     {
         [Key]
         public int Id { get; set; }
-        public decimal? BetPrice { get; set; }
-        public int? UserId { get; set; }
-        public int? CurrencyId { get; set; }
+        public decimal BetPrice { get; set; }
+        public int UserId { get; set; }
+        public int CurrencyId { get; set; }
         [ForeignKey("UserId")]
         public virtual User User { get; set; }
         [ForeignKey("CurrencyId")]

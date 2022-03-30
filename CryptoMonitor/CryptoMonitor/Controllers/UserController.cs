@@ -18,17 +18,20 @@ namespace CryptoMonitor.Web.Controllers
     [Authorize]
     public class UserController : Controller
     {
+        private readonly IBetService _betService;
         private readonly ICryptoCurrencyService _currencyService;
         private readonly IMapper _mapper;
        
-        public UserController(ICryptoCurrencyService currencyService, IMapper mapper)
+        public UserController(ICryptoCurrencyService currencyService, IBetService betService, IMapper mapper)
         {
+            _betService = betService;
             _currencyService = currencyService;
             _mapper = mapper;
         }
 
         // GET: UserController
-        public ActionResult Index(string searchString, SortState sortOrder = SortState.CurrencyNameAsc) // добавить ставку от Юзера на отдельный экшен
+        [HttpGet]
+        public ActionResult Index(string searchString, SortState sortOrder = SortState.CurrencyNameAsc) 
         {
             var currencyList = new List<CryptoCurrencyModel>();
 
@@ -75,6 +78,14 @@ namespace CryptoMonitor.Web.Controllers
             List<CryptoCurrencyViewModel> mappedModel = _mapper.Map<List<CryptoCurrencyViewModel>>(sortedList);
             
             return View(mappedModel);
+        }
+
+        public ActionResult Bet([FromForm]BetViewModel betViewModel)
+        {
+            // ид пользователя claim
+            var mappedModel = _mapper.Map<BetModel>(betViewModel);
+            _betService.AddUserBet(mappedModel);
+            return RedirectToAction("Index", "User");
         }
 
         public async Task<IActionResult> Logout()

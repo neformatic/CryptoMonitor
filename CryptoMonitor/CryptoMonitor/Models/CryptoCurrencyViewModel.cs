@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using CryptoMonitor.BLL.DTO;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -12,6 +13,7 @@ namespace CryptoMonitor.Web.Models
         public DateTime UpdatedDate { get; set; }
         public string CurrencyImage { get; set; }
         public IFormFile Image { get; set; }
+        public BetModel UserBet { get; set; }
         // UserBet свойство добавить
     }
 }
