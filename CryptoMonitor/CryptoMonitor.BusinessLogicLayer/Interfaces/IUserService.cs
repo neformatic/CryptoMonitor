@@ -6,5 +6,6 @@ namespace CryptoMonitor.BLL.Interfaces
 {
     public interface IUserService
     {
+        int GetUserId(string login);
     }
 }

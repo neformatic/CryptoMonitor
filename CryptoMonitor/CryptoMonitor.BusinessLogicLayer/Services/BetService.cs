@@ -20,9 +20,9 @@ namespace CryptoMonitor.BLL.Services
             _mapper = mapper;
         }
 
-        public void AddUserBet(CryptoCurrencyModel betModel)
+        public void AddUserBet(BetModel betModel)
         {
-            var mappedModel = _mapper.Map<CryptoCurrencyDataModel>(betModel);
+            var mappedModel = _mapper.Map<BetDataModel>(betModel);
             _betRepository.AddUserBet(mappedModel);
         }
     }

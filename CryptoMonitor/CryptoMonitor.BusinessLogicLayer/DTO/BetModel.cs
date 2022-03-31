@@ -9,6 +9,7 @@ namespace CryptoMonitor.BLL.DTO
         public int Id { get; set; }
         public decimal? BetPrice { get; set; }
         public int UserId { get; set; }
+        public int CurrencyId { get; set; }
         public CryptoCurrencyModel Currency { get; set; }
     }
 }

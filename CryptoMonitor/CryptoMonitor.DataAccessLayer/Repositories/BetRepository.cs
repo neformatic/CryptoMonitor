@@ -18,10 +18,10 @@ namespace CryptoMonitor.DAL.Repositories
             _mapper = mapper;
         }
 
-        public void AddUserBet(CryptoCurrencyDataModel cryptoCurrencyDataModel)
+        public void AddUserBet(BetDataModel cryptoCurrencyDataModel)
         {
-            var mappedModel = _mapper.Map<CryptoCurrency>(cryptoCurrencyDataModel);
-            _db.CryptoCurrency.Add(mappedModel);
+            var mappedModel = _mapper.Map<Bet>(cryptoCurrencyDataModel);
+            _db.Bet.Add(mappedModel);
             _db.SaveChanges();
         }
 

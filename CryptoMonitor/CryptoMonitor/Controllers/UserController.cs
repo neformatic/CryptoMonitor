@@ -18,12 +18,14 @@ namespace CryptoMonitor.Web.Controllers
     [Authorize]
     public class UserController : Controller
     {
+        public readonly IUserService _userService;
         private readonly IBetService _betService;
         private readonly ICryptoCurrencyService _currencyService;
         private readonly IMapper _mapper;
        
-        public UserController(ICryptoCurrencyService currencyService, IBetService betService, IMapper mapper)
+        public UserController(ICryptoCurrencyService currencyService, IBetService betService, IUserService userService, IMapper mapper)
         {
+            _userService = userService;
             _betService = betService;
             _currencyService = currencyService;
             _mapper = mapper;
@@ -80,11 +82,18 @@ namespace CryptoMonitor.Web.Controllers
             return View(mappedModel);
         }
 
-        public ActionResult Bet([FromForm]BetViewModel betViewModel)
+        public ActionResult Bet([FromForm]UserBetViewModel betViewModel)
         {
-            // ид пользователя claim
-            var mappedModel = _mapper.Map<BetModel>(betViewModel);
-            _betService.AddUserBet(mappedModel);
+            var userLogin = HttpContext.User.Identity.Name;
+            var userId = _userService.GetUserId(userLogin); // перенести в сервис модель и логин в метод
+
+            var userModel = new BetModel()
+            {
+               BetPrice = betViewModel.Price,
+               CurrencyId = betViewModel.CurrencyId,
+               UserId = userId
+            };
+            _betService.AddUserBet(userModel);
             return RedirectToAction("Index", "User");
         }
 

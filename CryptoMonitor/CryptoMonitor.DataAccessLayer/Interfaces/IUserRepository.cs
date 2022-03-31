@@ -8,6 +8,7 @@ namespace CryptoMonitor.DAL.Interfaces
     public interface IUserRepository
     {
         void AddUser(UserDataModel userDataModel);
+        int GetUserId(string login);
         void Save();
     }
 }

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CryptoMonitor.DAL.Migrations
 {
     [DbContext(typeof(CryptoMonitorDbContext))]
-    [Migration("20220328170654_AddBetEntity")]
+    [Migration("20220331162720_AddBetEntity")]
     partial class AddBetEntity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,6 +40,31 @@ namespace CryptoMonitor.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Account");
+                });
+
+            modelBuilder.Entity("CryptoMonitor.DAL.Entities.Bet", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<decimal>("BetPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("CurrencyId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CurrencyId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Bet");
                 });
 
             modelBuilder.Entity("CryptoMonitor.DAL.Entities.CryptoCurrency", b =>
@@ -93,6 +118,25 @@ namespace CryptoMonitor.DAL.Migrations
                     b.HasIndex("CryptoCurrencyId");
 
                     b.ToTable("User");
+                });
+
+            modelBuilder.Entity("CryptoMonitor.DAL.Entities.Bet", b =>
+                {
+                    b.HasOne("CryptoMonitor.DAL.Entities.CryptoCurrency", "Currency")
+                        .WithMany()
+                        .HasForeignKey("CurrencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CryptoMonitor.DAL.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Currency");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CryptoMonitor.DAL.Entities.User", b =>

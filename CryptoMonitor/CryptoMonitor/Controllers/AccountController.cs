@@ -68,8 +68,7 @@ namespace CryptoMonitor.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var accountModel = _accountService.GetAccountModel(model.Login, model.Password); // получать модель аккаунта по логину и паролю
-
+                    var accountModel = _accountService.GetAccountModel(model.Login, model.Password); 
                     if (accountModel != null)
                     {
                         var accountRole = accountModel.Role;
@@ -91,7 +90,6 @@ namespace CryptoMonitor.Web.Controllers
             {
                 ModelState.AddModelError(string.Empty, "Некорректный логин и(или) пароль.");
             }
-            //return View(model);
             return RedirectToAction("Index", "Home");
 
         }

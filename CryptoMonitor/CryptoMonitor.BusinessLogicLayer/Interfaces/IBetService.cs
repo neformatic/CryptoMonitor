@@ -7,6 +7,6 @@ namespace CryptoMonitor.BLL.Interfaces
 {
     public interface IBetService
     {
-        void AddUserBet(CryptoCurrencyModel betModel);
+        void AddUserBet(BetModel betModel);
     }
 }

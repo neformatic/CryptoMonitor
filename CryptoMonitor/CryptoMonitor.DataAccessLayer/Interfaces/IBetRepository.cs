@@ -7,7 +7,7 @@ namespace CryptoMonitor.DAL.Interfaces
 {
     public interface IBetRepository
     {
-        void AddUserBet(CryptoCurrencyDataModel betDataModel);
+        void AddUserBet(BetDataModel betDataModel);
         void Save();
     }
 }
