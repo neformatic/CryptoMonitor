@@ -34,6 +34,7 @@ namespace CryptoMonitor.Web.Controllers
         // GET: UserController
         [HttpGet]
         public ActionResult Index(string searchString, SortState sortOrder = SortState.CurrencyNameAsc) 
+        
         {
             var currencyList = new List<CryptoCurrencyModel>();
 
@@ -43,7 +44,7 @@ namespace CryptoMonitor.Web.Controllers
             }
             else
             {
-                currencyList = _currencyService.searchingCurrency(searchString);
+                currencyList = _currencyService.SearchingCurrency(searchString);
             }         
 
             var sortedList = new List<CryptoCurrencyModel>();
@@ -78,22 +79,21 @@ namespace CryptoMonitor.Web.Controllers
             }
 
             List<CryptoCurrencyViewModel> mappedModel = _mapper.Map<List<CryptoCurrencyViewModel>>(sortedList);
-            
             return View(mappedModel);
         }
-
-        public ActionResult Bet([FromForm]UserBetViewModel betViewModel)
+        [Authorize(Roles = nameof(RoleTypes.DefaultUser))]
+        public ActionResult Bet([FromForm]UserBetViewModel userBetViewModel)
         {
             var userLogin = HttpContext.User.Identity.Name;
-            var userId = _userService.GetUserId(userLogin); // перенести в сервис модель и логин в метод
+            var userId = _userService.GetUserId(userLogin); 
 
-            var userModel = new BetModel()
+            var userBetModel = new BetModel()
             {
-               BetPrice = betViewModel.Price,
-               CurrencyId = betViewModel.CurrencyId,
+               BetPrice = userBetViewModel.Price,
+               CurrencyId = userBetViewModel.CurrencyId,
                UserId = userId
             };
-            _betService.AddUserBet(userModel);
+            _betService.AddUserBet(userBetModel);
             return RedirectToAction("Index", "User");
         }
 

@@ -11,5 +11,6 @@ namespace CryptoMonitor.DAL.DTO
         public decimal? CurrencyPrice { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public string CurrencyImage { get; set; }
+        public BetDataModel BetDataModel { get; set; }
     }
 }

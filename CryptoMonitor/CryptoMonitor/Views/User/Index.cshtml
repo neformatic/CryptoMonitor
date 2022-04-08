@@ -37,10 +37,12 @@
                     Updated date
                 </a>
             </th>
-             <th>
-                    Do Bet
+            <th>
+                Do Bet
             </th>
-
+            <th>
+                Your Bet
+            </th>
         </tr>
     </thead>
 
@@ -48,20 +50,21 @@
     {
         <tr>
             <td><img src="~/images/currencies/@item.CurrencyImage" style="width:50px;height:50px;" /></td>
-            <td>@item.CurrencyName</td>
+            <td id="currencyName">@item.CurrencyName
+                <input id="@item.CurrencyName" value=@item.CurrencyName hidden>
+            </td>
             <td>@item.CurrencyPrice</td>
             <td>@item.UpdatedDate</td>
             <td>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#betModal">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#betModal" data-bs-whatever="@item.Id">
                     Bet
                 </button>
-            </td>
-            <td>@item.UserBet</td>
+             </td>
+             <td>@item.BetModel.BetPrice</td>
         </tr>
     }
 </table>
 
-<!-- Modal -->
 <div class="modal fade" id="betModal" tabindex="-1" aria-labelledby="betModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -71,17 +74,64 @@
             </div>
             <div class="modal-body">
                 <form class="row g-3" method="post" asp-action="Bet" asp-controller="User">
-                    <div class="col-md-3">
-                        <label for="BetModal" class="form-label">Input you Bet:</label>
-                        <input type="text" class="form-control" name="modal" required>
+                    <div class="mb-3">
+                        <label for="bet-name" class="col-form-label">Input your bet:</label>
+                        <input type="text" class="form-control" id="bet-name" name="CurrencyId" hidden>
+                        <input type="text" class="form-control" id="bet-price" name="Price">
                     </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save Bet</button>
-                    </div>
+                    <button type="submit" class="btn btn-primary">Save</button>
                 </form>
+            </div>
+            <div class="modal-footer">
             </div>
         </div>
     </div>
 </div>
 
+<script>
+     var betModal = document.getElementById('betModal')
+     betModal.addEventListener('show.bs.modal', function (event) {
+       var button = event.relatedTarget
+              var bet = button.getAttribute('data-bs-whatever')
+              var modalTitle = betModal.querySelector('.modal-title')
+              var modalBodyInput = betModal.querySelector('.modal-body input')
+              modalBodyInput.value = bet
+            });
+            
+    setTimeout(function (){
+        location.reload();
+        alertMessage();
+    }, 20000);
+</script>
+
+<script>
+    function alertMessage(){
+        var currencyName = document.getElementById('bitcoin').value
+        var currencyPrice = document.getElementById('').value
+        var userBet = document.getElementById('userBet').value
+        alert(`Your bet for ${currencyName} actual now!`);
+        //if(userBet <= currencyPrice)
+        //{
+        //    alert(`Your bet for ${currencyName} actual now!`);
+        //}
+        debugger;
+    };
+</script>
+
+@*<script>
+    $(document).ready(function () {
+
+    @{  var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+         var json = serializer.Serialize(Model);
+    }
+
+    var model = @Html.Raw(json);
+    if(model != null && @Html.Raw(json) != "undefined")
+    {
+        var id= model.Id;
+        var mainFloorPlanId = model. ;
+        var imageDirectory = model.ImageDirectory ;
+        var iconsDirectory = model.IconsDirectory ;
+    }
+});
+</script>*@

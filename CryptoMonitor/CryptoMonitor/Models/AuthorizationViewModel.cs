@@ -4,9 +4,9 @@ namespace CryptoMonitor.Web.Models
 {
     public class AuthorizationViewModel
     {
-        [Required(ErrorMessage = "Не указан логин")]
+        [Required(ErrorMessage = "Please enter Login")]
         public string Login { get; set; }
-        [Required(ErrorMessage = "Не указан пароль")]
+        [Required(ErrorMessage = "Please enter Password")]
         public string Password { get; set; }
     }
 

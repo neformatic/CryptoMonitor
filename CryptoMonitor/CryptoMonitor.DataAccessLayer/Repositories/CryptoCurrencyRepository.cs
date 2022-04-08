@@ -23,13 +23,13 @@ namespace CryptoMonitor.DAL.Repositories
 
         public List<CryptoCurrencyDataModel> GetCryptoCurrencies()
         {
-            var cryptoCurrencies = _db.CryptoCurrency.ToList();
-            var mappedModel = new List<CryptoCurrencyDataModel>();
-            foreach (var currency in cryptoCurrencies)
+            var cryptoCurrencies = _db.CryptoCurrency.Include(b => b.Bet).ToList();
+            var mappedModels = _mapper.Map<List<CryptoCurrencyDataModel>>(cryptoCurrencies);
+            foreach(var model in mappedModels)
             {
-                mappedModel.Add(_mapper.Map<CryptoCurrencyDataModel>(currency));
+                model.BetDataModel = _mapper.Map<BetDataModel>(cryptoCurrencies.FirstOrDefault(c => c.Id == model.Id).Bet);
             }
-            return mappedModel; 
+            return mappedModels; 
         }
         public CryptoCurrencyDataModel GetCryptoCurrencyById(int id)
         {
@@ -60,6 +60,7 @@ namespace CryptoMonitor.DAL.Repositories
                 CurrencyPrice = cryptoCurrencyDataModel.CurrencyPrice,
                 UpdatedDate = DateTime.Now,
                 CurrencyImage = cryptoCurrencyDataModel.CurrencyImage
+                
             };
             _db.CryptoCurrency.Add(newCryptoCurrency);
         }

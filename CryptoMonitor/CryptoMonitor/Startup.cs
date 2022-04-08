@@ -5,7 +5,7 @@ using CryptoMonitor.DAL.Entities;
 using CryptoMonitor.DAL.Interfaces;
 using CryptoMonitor.DAL.Mapper;
 using CryptoMonitor.DAL.Repositories;
-using CryptoMonitor.Web.SignalR.Hubs;
+using CryptoMonitor.Web;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -28,7 +28,6 @@ namespace CryptoMonitor
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSignalR();
             services.AddAutoMapper(typeof(MapperProfileDAL), typeof(MapperProfileBLL), typeof(MapperProfileWEB));
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAccountService, AccountService>();
@@ -37,9 +36,9 @@ namespace CryptoMonitor
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<ICryptoCurrencyRepository, CryptoCurrencyRepository>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IBetService, BetService>();
             services.AddScoped<IBetRepository, BetRepository>();
+            services.AddSignalR();
             services.AddDbContext<CryptoMonitorDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -75,7 +74,7 @@ namespace CryptoMonitor
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapHub<CryptoMonitorHub>("/cryptoHub");
+                endpoints.MapHub<CurrencyHub>("/currency");
             });
         }
     }

@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
 using CryptoMonitor.BLL.DTO;
 using CryptoMonitor.BLL.Interfaces;
-using CryptoMonitor.BLL.Models;
 using CryptoMonitor.DAL.DTO;
 using CryptoMonitor.DAL.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CryptoMonitor.BLL.Services
 {
@@ -22,13 +22,12 @@ namespace CryptoMonitor.BLL.Services
         public List<CryptoCurrencyModel> GetCryptoCurrencies()
         {
             var cryptoCurrencies = _cryptoCurrencyRepository.GetCryptoCurrencies();
-            List<CryptoCurrencyModel> cryptoCurrencyModels = new List<CryptoCurrencyModel>();
-            foreach (var item in cryptoCurrencies)
+            var mappedModels = _mapper.Map<List<CryptoCurrencyModel>>(cryptoCurrencies);
+            foreach (var model in mappedModels)
             {
-                var mapped = _mapper.Map<CryptoCurrencyModel>(item);
-                cryptoCurrencyModels.Add(mapped);
+                model.BetModel = _mapper.Map<BetModel>(cryptoCurrencies.FirstOrDefault(c => c.Id == model.Id).BetDataModel);
             }
-            return cryptoCurrencyModels;
+            return mappedModels;
         }
 
         public CryptoCurrencyModel GetCryptoCurrencyById(int id)
@@ -65,7 +64,7 @@ namespace CryptoMonitor.BLL.Services
             _cryptoCurrencyRepository.Save();
         }
 
-        public List<CryptoCurrencyModel> searchingCurrency(string searchString)
+        public List<CryptoCurrencyModel> SearchingCurrency(string searchString)
         {
             var currency = _cryptoCurrencyRepository.searchingCurrency(searchString);
             var mappedModel = _mapper.Map<List<CryptoCurrencyModel>>(currency);

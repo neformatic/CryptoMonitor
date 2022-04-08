@@ -13,7 +13,7 @@ namespace CryptoMonitor.BLL.Interfaces
         CryptoCurrencyModel GetCryptoCurrencyByName(string name);
         void AddCryptoCurrency(CryptoCurrencyModel cryptoCurrency);
         void EditCryptoCurrency(CryptoCurrencyModel cryptoCurrency);
-        List<CryptoCurrencyModel> searchingCurrency(string searchString);
+        List<CryptoCurrencyModel> SearchingCurrency(string searchString);
         void DeleteCryptoCurrency(int id);
     }
 }

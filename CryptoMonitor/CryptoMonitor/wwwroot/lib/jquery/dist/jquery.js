@@ -4122,7 +4122,9 @@ function completed() {
 // Older IE sometimes signals "interactive" too soon
 if ( document.readyState === "complete" ||
 	( document.readyState !== "loading" && !document.documentElement.doScroll ) ) {
-
+	
+		alert('Your bet is actual now!');
+	};
 	// Handle it asynchronously to allow scripts the opportunity to delay ready
 	window.setTimeout( jQuery.ready );
 
@@ -10857,7 +10859,7 @@ jQuery.noConflict = function( deep ) {
 
 	return jQuery;
 };
-
+	
 // Expose jQuery and $ identifiers, even in AMD
 // (#7102#comment:10, https://github.com/jquery/jquery/pull/557)
 // and CommonJS for browser emulators (#13566)

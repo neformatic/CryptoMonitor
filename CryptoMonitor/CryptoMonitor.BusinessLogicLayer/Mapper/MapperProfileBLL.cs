@@ -15,6 +15,8 @@ namespace CryptoMonitor.BLL.Mapper
             CreateMap<CryptoCurrencyDataModel, CryptoCurrencyModel>().ReverseMap();
             CreateMap<UserDataModel, UserModel>().ReverseMap();
             CreateMap<BetDataModel, BetModel>().ReverseMap();
+            CreateMap<UserBetModel, BetModel>().ReverseMap();
+            CreateMap<CryptoCurrencyDataModel, BetModel>().ReverseMap();
         }
     }
 }

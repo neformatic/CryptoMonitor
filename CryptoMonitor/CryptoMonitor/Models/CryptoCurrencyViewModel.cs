@@ -13,7 +13,6 @@ namespace CryptoMonitor.Web.Models
         public DateTime UpdatedDate { get; set; }
         public string CurrencyImage { get; set; }
         public IFormFile Image { get; set; }
-        public BetModel UserBet { get; set; }
-        // UserBet свойство добавить
+        public BetModel BetModel { get; set; }
     }
 }

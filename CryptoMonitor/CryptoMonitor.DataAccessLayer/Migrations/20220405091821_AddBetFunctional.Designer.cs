@@ -4,14 +4,16 @@ using CryptoMonitor.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CryptoMonitor.DAL.Migrations
 {
     [DbContext(typeof(CryptoMonitorDbContext))]
-    partial class CryptoMonitorDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220405091821_AddBetFunctional")]
+    partial class AddBetFunctional
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,8 +63,7 @@ namespace CryptoMonitor.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CurrencyId")
-                        .IsUnique();
+                    b.HasIndex("CurrencyId");
 
                     b.HasIndex("UserId");
 
@@ -125,8 +126,8 @@ namespace CryptoMonitor.DAL.Migrations
             modelBuilder.Entity("CryptoMonitor.DAL.Entities.Bet", b =>
                 {
                     b.HasOne("CryptoMonitor.DAL.Entities.CryptoCurrency", "Currency")
-                        .WithOne("Bet")
-                        .HasForeignKey("CryptoMonitor.DAL.Entities.Bet", "CurrencyId")
+                        .WithMany()
+                        .HasForeignKey("CurrencyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -161,11 +162,6 @@ namespace CryptoMonitor.DAL.Migrations
             modelBuilder.Entity("CryptoMonitor.DAL.Entities.Account", b =>
                 {
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("CryptoMonitor.DAL.Entities.CryptoCurrency", b =>
-                {
-                    b.Navigation("Bet");
                 });
 #pragma warning restore 612, 618
         }

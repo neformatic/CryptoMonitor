@@ -2,7 +2,7 @@
 <h2>Edit crypto currency:</h2>
 <form class="row g-3" method="post" asp-action="Edit" asp-controller="Admin" enctype="multipart/form-data">
     <div class="col-md-3">
-        <div class="validation" asp-validation-summary="ModelOnly"></div>
+        <div class="validation" asp-validation-summary="All"></div>
         <label for="CurrencyName" class="form-label">Crypto currency</label>
         <input type="text" class="form-control" name="currencyName" asp-for=CurrencyName required>
         <label for="CurrencyPrice" class="form-label">Currency price</label>

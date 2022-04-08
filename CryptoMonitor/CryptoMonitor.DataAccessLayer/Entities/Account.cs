@@ -11,7 +11,6 @@ namespace CryptoMonitor.DAL.Entities
         public string AccountLogin { get; set; }
         public string AccountPassword { get; set; }
         public RoleTypes Role { get; set; }
-
         public virtual User User { get; set; }
     }
 }

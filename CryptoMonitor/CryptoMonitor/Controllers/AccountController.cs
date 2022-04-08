@@ -32,25 +32,30 @@ namespace CryptoMonitor.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Registration(RegistrationViewModel model)
+        public IActionResult Registration(RegistrationViewModel model)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    var accountModel = _accountService.GetAccountModel(model.Login, model.Password); // модель пользователя вернуть
+                    var accountModel = _accountService.GetAccountModel(model.Login, model.Password);
                     if (accountModel == null)
                     {
                         var mapped = _mapper.Map<UserModel>(model);
                         _accountService.Registration(mapped);
-                        await Authenticate(model.Login, RoleTypes.DefaultUser);
+                        Authenticate(model.Login, RoleTypes.DefaultUser);
                         return RedirectToAction("Authorization", "Account");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Login", "Login is taken");
                     }
                 }
             }
             catch
             {
-                ModelState.AddModelError("Login", "Login is taken");
+                return View(model);
+
             }
             return View(model);
         }   
@@ -62,7 +67,7 @@ namespace CryptoMonitor.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Authorization(LoginViewModel model)
+        public IActionResult Authorization(LoginViewModel model)
         {
             try
             {
@@ -72,7 +77,7 @@ namespace CryptoMonitor.Web.Controllers
                     if (accountModel != null)
                     {
                         var accountRole = accountModel.Role;
-                        await Authenticate(model.Login, accountRole);
+                        Authenticate(model.Login, accountRole);
                         switch (accountRole)
                         {
                             case RoleTypes.Admin:
@@ -82,19 +87,21 @@ namespace CryptoMonitor.Web.Controllers
                             default:
                                 return RedirectToAction("Index", "Home");
                         }
-
+                        
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Некорректный логин и(или) пароль.");
                     }
                 }
             }
             catch
             {
-                ModelState.AddModelError(string.Empty, "Некорректный логин и(или) пароль.");
             }
-            return RedirectToAction("Index", "Home");
-
+            return View();
         }
 
-        private async Task Authenticate(string login, RoleTypes accountRole)
+        private void Authenticate(string login, RoleTypes accountRole)
         {
             var role = accountRole.ToString(); 
             var claims = new List<Claim>
@@ -104,11 +111,11 @@ namespace CryptoMonitor.Web.Controllers
             };
 
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+            HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
-        public async Task<IActionResult> Logout()
+        public IActionResult Logout()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Authorization", "Account");
         }
     }

@@ -11,5 +11,6 @@ namespace CryptoMonitor.DAL.Entities
         public decimal? CurrencyPrice { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public string CurrencyImage { get; set; }
+        public virtual Bet Bet { get; set; }
     }
 }

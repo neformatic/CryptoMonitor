@@ -4,14 +4,16 @@ using CryptoMonitor.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CryptoMonitor.DAL.Migrations
 {
     [DbContext(typeof(CryptoMonitorDbContext))]
-    partial class CryptoMonitorDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220406113614_AddNotNullForBet")]
+    partial class AddNotNullForBet
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -53,16 +55,17 @@ namespace CryptoMonitor.DAL.Migrations
                     b.Property<decimal>("BetPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("CurrencyId")
+                    b.Property<int?>("CurrencyId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CurrencyId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[CurrencyId] IS NOT NULL");
 
                     b.HasIndex("UserId");
 
@@ -126,15 +129,11 @@ namespace CryptoMonitor.DAL.Migrations
                 {
                     b.HasOne("CryptoMonitor.DAL.Entities.CryptoCurrency", "Currency")
                         .WithOne("Bet")
-                        .HasForeignKey("CryptoMonitor.DAL.Entities.Bet", "CurrencyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CryptoMonitor.DAL.Entities.Bet", "CurrencyId");
 
                     b.HasOne("CryptoMonitor.DAL.Entities.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Currency");
 

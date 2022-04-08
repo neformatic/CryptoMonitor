@@ -11,6 +11,7 @@ namespace CryptoMonitor.DAL.Entities
         [Key]
         public int Id { get; set; }
         public decimal BetPrice { get; set; }
+        public DateTime? BetDate { get; set; }
         public int UserId { get; set; }
         public int CurrencyId { get; set; }
         [ForeignKey("UserId")]

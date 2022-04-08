@@ -8,7 +8,7 @@ namespace CryptoMonitor.Web.Models
         [StringLength(10)]
         [MinLength(3, ErrorMessage = "Логин должен быть от 3 до 10 символов")]
         public string Login { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Не указан пароль")]
         public string Password { get; set; }
         [Required]
         public string LastName { get; set; }

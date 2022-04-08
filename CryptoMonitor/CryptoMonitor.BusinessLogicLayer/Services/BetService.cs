@@ -24,6 +24,7 @@ namespace CryptoMonitor.BLL.Services
         {
             var mappedModel = _mapper.Map<BetDataModel>(betModel);
             _betRepository.AddUserBet(mappedModel);
+            _betRepository.Save();
         }
     }
 }
