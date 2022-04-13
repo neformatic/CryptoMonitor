@@ -54,7 +54,6 @@ namespace CryptoMonitor.Web.Controllers
             }
             catch
             {
-                return View(model);
 
             }
             return View(model);
@@ -98,7 +97,7 @@ namespace CryptoMonitor.Web.Controllers
             catch
             {
             }
-            return View();
+            return View(model);
         }
 
         private void Authenticate(string login, RoleTypes accountRole)

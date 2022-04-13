@@ -26,5 +26,13 @@ namespace CryptoMonitor.BLL.Services
             _betRepository.AddUserBet(mappedModel);
             _betRepository.Save();
         }
+
+        public List<string>GetCurrencyNamesByUserId(int id)
+        {
+            var currencyNames = _betRepository.GetCurrencyNamesByUserId(id);
+            _betRepository.Save();
+            return currencyNames;
+        }
+
     }
 }

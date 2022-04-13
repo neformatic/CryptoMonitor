@@ -38,7 +38,6 @@ namespace CryptoMonitor
             services.AddScoped<ICryptoCurrencyRepository, CryptoCurrencyRepository>();
             services.AddScoped<IBetService, BetService>();
             services.AddScoped<IBetRepository, BetRepository>();
-            services.AddSignalR();
             services.AddDbContext<CryptoMonitorDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -74,7 +73,6 @@ namespace CryptoMonitor
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapHub<CurrencyHub>("/currency");
             });
         }
     }

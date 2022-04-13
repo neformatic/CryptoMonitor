@@ -8,5 +8,7 @@ namespace CryptoMonitor.BLL.Interfaces
     public interface IBetService
     {
         void AddUserBet(BetModel betModel);
+        List<string> GetCurrencyNamesByUserId(int id);
+
     }
 }

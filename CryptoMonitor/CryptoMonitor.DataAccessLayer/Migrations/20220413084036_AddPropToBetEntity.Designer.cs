@@ -4,14 +4,16 @@ using CryptoMonitor.DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CryptoMonitor.DAL.Migrations
 {
     [DbContext(typeof(CryptoMonitorDbContext))]
-    partial class CryptoMonitorDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220413084036_AddPropToBetEntity")]
+    partial class AddPropToBetEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,7 +58,7 @@ namespace CryptoMonitor.DAL.Migrations
                     b.Property<int>("CurrencyId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsNotified")
+                    b.Property<bool>("IsNotifyed")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsWonBet")

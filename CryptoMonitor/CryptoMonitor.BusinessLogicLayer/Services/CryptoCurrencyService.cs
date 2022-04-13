@@ -13,10 +13,13 @@ namespace CryptoMonitor.BLL.Services
     {
         private readonly IMapper _mapper;
         private readonly ICryptoCurrencyRepository _cryptoCurrencyRepository;
-        public CryptoCurrencyService(IMapper mapper, ICryptoCurrencyRepository cryptoCurrencyRepository)
+        private readonly IBetRepository _betRepository;
+
+        public CryptoCurrencyService(IMapper mapper, ICryptoCurrencyRepository cryptoCurrencyRepository, IBetRepository betRepository)
         {
             _mapper = mapper;
             _cryptoCurrencyRepository = cryptoCurrencyRepository;
+            _betRepository = betRepository;
         }
 
         public List<CryptoCurrencyModel> GetCryptoCurrencies()
@@ -55,6 +58,7 @@ namespace CryptoMonitor.BLL.Services
         {
             var mapped = _mapper.Map<CryptoCurrencyDataModel>(cryptoCurrency);
             _cryptoCurrencyRepository.EditCryptoCurrency(mapped);
+            CheckBetToIsWon(cryptoCurrency);
             _cryptoCurrencyRepository.Save();
         }
 
@@ -69,6 +73,19 @@ namespace CryptoMonitor.BLL.Services
             var currency = _cryptoCurrencyRepository.searchingCurrency(searchString);
             var mappedModel = _mapper.Map<List<CryptoCurrencyModel>>(currency);
             return mappedModel;
+        }
+
+        private void CheckBetToIsWon(CryptoCurrencyModel cryptoCurrencyModel)
+        {
+            var bets = _betRepository.GetActiveBetsByCurrency(cryptoCurrencyModel.Id);
+            foreach (var bet in bets)
+            {
+                if (bet.BetPrice < cryptoCurrencyModel.CurrencyPrice)
+                {
+                    _betRepository.ChangeBetStatus(bet.Id);
+                }
+            }
+
         }
     }
 }
