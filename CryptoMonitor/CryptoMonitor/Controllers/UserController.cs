@@ -33,7 +33,7 @@ namespace CryptoMonitor.Web.Controllers
 
         // GET: UserController
         [HttpGet]
-        public ActionResult Index(string searchString, SortState sortOrder = SortState.CurrencyNameAsc) 
+        public IActionResult Index(string searchString, SortState sortOrder = SortState.CurrencyNameAsc) 
         
         {
             var currencyList = new List<CryptoCurrencyModel>();
@@ -45,8 +45,8 @@ namespace CryptoMonitor.Web.Controllers
             else
             {
                 currencyList = _currencyService.SearchingCurrency(searchString);
-            }         
-
+            }
+            
             var sortedList = new List<CryptoCurrencyModel>();
 
             ViewData["GetStringForSearch"] = searchString;
@@ -82,7 +82,7 @@ namespace CryptoMonitor.Web.Controllers
             return View(mappedModel);
         }
         [Authorize(Roles = nameof(RoleTypes.DefaultUser))]
-        public ActionResult Bet([FromForm]UserBetViewModel userBetViewModel)
+        public IActionResult Bet([FromForm]UserBetViewModel userBetViewModel)
         {
             var userLogin = HttpContext.User.Identity.Name;
             var userId = _userService.GetUserId(userLogin); 
@@ -101,6 +101,20 @@ namespace CryptoMonitor.Web.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Authorization", "Account");
+        }
+
+        [HttpGet]
+        public IActionResult UserCurrencyBets(int id)
+        {
+            try
+            {
+                var currencyNames = _betService.GetCurrencyNamesByUserId(id);
+                return Ok(currencyNames);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
         }
     }
 }

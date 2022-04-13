@@ -3,7 +3,7 @@
 <form class="row g-3" method="post" asp-action="Create" asp-controller="Admin" enctype="multipart/form-data">
     <div class="col-md-3">
         <div class="validation" asp-validation-summary="ModelOnly"></div>
-        <label for="CurrencyName" class="form-label">Crypto currency</label>
+        <label for="CurrencyName" class="form-label">Currency Name</label>
         <input type="text" class="form-control" name="currencyName" asp-for=CurrencyName required>
         <label for="CurrencyPrice" class="form-label">Currency price</label>
         <input type="text" class="form-control" name="currencyPrice" asp-for=CurrencyPrice required>

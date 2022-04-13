@@ -11,6 +11,7 @@
         <form class="d-flex">
             <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" value="@ViewData["GetStringForSearch"]" name="searchString" style="width:500px;" />
             <button class="btn btn-outline-success" type="submit">Search</button>
+            <button class="btn btn-outline-success" type="reset" onclick=reloadPage()>Check currency</button>
         </form>
         <a asp-action="Index">Back to Full List</a>
     </div>
@@ -43,14 +44,23 @@
             <th>
                 Your Bet
             </th>
+            <th>
+                Winning bet
+            </th>
+            <th>
+                IsNotified
+            </th>
         </tr>
     </thead>
+
+   
 
     @foreach (var item in Model)
     {
         <tr>
             <td><img src="~/images/currencies/@item.CurrencyImage" style="width:50px;height:50px;" /></td>
-            <td id="currencyName">@item.CurrencyName
+            <td id="currencyName">
+                @item.CurrencyName
                 <input id="@item.CurrencyName" value=@item.CurrencyName hidden>
             </td>
             <td>@item.CurrencyPrice</td>
@@ -59,8 +69,13 @@
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#betModal" data-bs-whatever="@item.Id">
                     Bet
                 </button>
-             </td>
-             <td>@item.BetModel.BetPrice</td>
+            </td>
+            @if (item.BetModel != null)
+            {
+                <td>@item.BetModel.BetPrice</td>
+            }
+            <td>@item.BetModel.IsWonBet</td>
+            <td>@item.BetModel.IsNotified</td>
         </tr>
     }
 </table>
@@ -87,6 +102,11 @@
         </div>
     </div>
 </div>
+@if (Model.FirstOrDefault()?.BetModel != null)
+{
+    <input id="userId" value=@Model.FirstOrDefault(m => m.BetModel != null).BetModel.UserId hidden>
+
+} 
 
 <script>
      var betModal = document.getElementById('betModal')
@@ -97,41 +117,37 @@
               var modalBodyInput = betModal.querySelector('.modal-body input')
               modalBodyInput.value = bet
             });
-            
+
     setTimeout(function (){
-        location.reload();
-        alertMessage();
-    }, 20000);
+        Get();  
+    }, 5000);
+
 </script>
 
-<script>
-    function alertMessage(){
-        var currencyName = document.getElementById('bitcoin').value
-        var currencyPrice = document.getElementById('').value
-        var userBet = document.getElementById('userBet').value
-        alert(`Your bet for ${currencyName} actual now!`);
-        //if(userBet <= currencyPrice)
-        //{
-        //    alert(`Your bet for ${currencyName} actual now!`);
-        //}
-        debugger;
-    };
-</script>
+    <script>
+        function Get(){
+            var userId = document.getElementById('userId').value
+            var url = "https://localhost:5001/User/UserCurrencyBets?id=" + userId;
+            fetch(url, {
+        method: "GET",
+        headers: {
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            data.forEach((currencyName) => {
+                alert("Your bet for "+ currencyName + " actual now!");
+                location.reload();
 
-@*<script>
-    $(document).ready(function () {
+            })
+        })
+        .catch(error => alert(error));
+        }
 
-    @{  var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
-         var json = serializer.Serialize(Model);
-    }
+    </script>
 
-    var model = @Html.Raw(json);
-    if(model != null && @Html.Raw(json) != "undefined")
-    {
-        var id= model.Id;
-        var mainFloorPlanId = model. ;
-        var imageDirectory = model.ImageDirectory ;
-        var iconsDirectory = model.IconsDirectory ;
-    }
-});
-</script>*@
+    <script>
+        function reloadPage(){
+            location.reload();
+        }
+    </script>

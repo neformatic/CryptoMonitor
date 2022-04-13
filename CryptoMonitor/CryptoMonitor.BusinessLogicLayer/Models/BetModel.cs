@@ -11,5 +11,7 @@ namespace CryptoMonitor.BLL.DTO
         public int UserId { get; set; }
         public int CurrencyId { get; set; }
         public CryptoCurrencyModel Currency { get; set; }
+        public bool IsWonBet { get; set; }
+        public bool IsNotified { get; set; }
     }
 }

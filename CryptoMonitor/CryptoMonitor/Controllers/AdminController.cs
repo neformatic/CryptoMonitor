@@ -100,7 +100,7 @@ namespace CryptoMonitor.Web.Controllers
             }
             catch
             {
-                return StatusCode(500, "Internal server error");
+                return View("Currency not found.");
             }
         }
 
@@ -140,9 +140,9 @@ namespace CryptoMonitor.Web.Controllers
             }
             catch
             {
-                return StatusCode(500, "Internal server error");
+                ModelState.AddModelError("", "Please, check input values");
             }
-            return View();
+            return View(currencyViewModel);
         }
 
         // GET: AdminController/Edit/5
@@ -156,7 +156,7 @@ namespace CryptoMonitor.Web.Controllers
             }
             catch
             {
-                return StatusCode(500, "Internal server error");
+                return View("Currency not found.");
             }
         }
 
@@ -193,9 +193,9 @@ namespace CryptoMonitor.Web.Controllers
             }
             catch
             {
-                return StatusCode(500, "Internal server error");
+                ModelState.AddModelError("", "Please, check input values");
             }
-            return View();
+            return View(currencyViewModel);
         }
 
         [HttpGet("{id}")]
@@ -208,7 +208,7 @@ namespace CryptoMonitor.Web.Controllers
             }
             catch
             {
-                return StatusCode(500, "Internal server error");
+                return View("Currency not found.");
             }
         }
 

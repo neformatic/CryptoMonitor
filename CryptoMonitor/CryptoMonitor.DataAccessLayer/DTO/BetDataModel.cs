@@ -11,5 +11,7 @@ namespace CryptoMonitor.DAL.DTO
         public DateTime? BetDate { get; set; }
         public int UserId { get; set; }
         public int CurrencyId { get; set; }
+        public bool IsWonBet { get; set; }
+        public bool IsNotified { get; set; }
     }
 }
